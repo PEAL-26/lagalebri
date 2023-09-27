@@ -7,9 +7,9 @@ import { Header } from "@/components/header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: { default: "Lagalebri", template: "%s | Lagalebri" },
+  title: "Página Principal",
   description:
-    "LAGALEBRI - Tecnologia & Imobiliária: Inovação em Construção Civil e Tecnologia para o Desenvolvimento de Angola. Desde TIC a Casas",
+    "Concretize seus projetos e tenha a casa dos seus sonhos com a Lagalebri - sua parceira confiável em construção e tecnologia.",
 };
 
 interface RootLayoutProps {
