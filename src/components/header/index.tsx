@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import useMediaQuery from "@/hooks/use-media-query";
-import { primaryTextGradient } from "@/styles/colors";
 
 const LINKS = {
   home: "/",
@@ -49,7 +48,7 @@ export function Header() {
             className="object-contain"
           />
           <span
-            className={`text-2xl font-bold uppercase lg:flex flex-col leading-none hidden ${primaryTextGradient}`}
+            className={`text-2xl font-bold uppercase lg:flex flex-col leading-none hidden bg-clip-text text-transparent bg-gradient-to-r from-[#04405E] to-black `}
           >
             Lagalebri
             <span className="text-[7px] font-normal capitalize ">
