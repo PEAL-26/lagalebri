@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import useMediaQuery from "@/hooks/use-media-query";
+import { primaryTextGradient } from "@/styles/colors";
 
 const LINKS = {
   home: "/",
@@ -29,16 +31,32 @@ export function Header() {
     const active = url === pathname;
 
     return {
-      true: "text-center lg:text-sky-600 text-base font-bold max-lg:bg-sky-600 text-white py-2 lg:py-2",
+      true: "text-center lg:text-primary text-base font-bold max-lg:bg-primary text-white py-2 lg:py-2",
       false:
-        "text-center lg:text-black text-base hover:text-sky-600 transition-all py-2 lg:py-2",
+        "text-center lg:text-black text-base hover:text-primary transition-all py-2 lg:py-2",
     }[active ? "true" : "false"];
   };
 
   return (
     <header className="fixed left-0 top-0 w-full h-14 bg-white shadow flex items-center justify-between lg:px-16 px-4">
       <div>
-        <Link href="/">Logo</Link>
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            width={32}
+            height={38.36}
+            src="/logo-w512.png"
+            alt="lagalebri-logo"
+            className="object-contain"
+          />
+          <span
+            className={`text-2xl font-bold uppercase lg:flex flex-col leading-none hidden ${primaryTextGradient}`}
+          >
+            Lagalebri
+            <span className="text-[7px] font-normal capitalize ">
+              Tecnologia & Imobiliária
+            </span>
+          </span>
+        </Link>
       </div>
       <button onClick={openMenu} className="lg:hidden block">
         menu
