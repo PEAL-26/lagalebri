@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import useMediaQuery from "@/hooks/use-media-query";
+import { Logo } from "@/components/shared/logo";
 
 const LINKS = {
   home: "/",
@@ -40,23 +41,7 @@ export function Header() {
     <header className="fixed left-0 top-0 z-50 flex h-14 w-full bg-white shadow">
       <div className="mx-auto flex w-full max-w-screen-xl items-center justify-between px-4 lg:px-16">
         <div>
-          <Link href="/" className="flex items-center gap-2">
-            <Image
-              width={32}
-              height={38.36}
-              src="/logo-w512.png"
-              alt="lagalebri-logo"
-              className="object-contain"
-            />
-            <span
-              className={`hidden flex-col bg-gradient-to-r from-[#04405E] to-black bg-clip-text text-2xl font-bold uppercase leading-none text-transparent lg:flex `}
-            >
-              Lagalebri
-              <span className="text-[7px] font-normal capitalize ">
-                Tecnologia & Imobiliária
-              </span>
-            </span>
-          </Link>
+          <Logo />
         </div>
         <button onClick={openMenu} className="block lg:hidden">
           menu

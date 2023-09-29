@@ -16,7 +16,7 @@ export function RedeSocial(props: RedeSocialProps) {
       target="_blank"
       className="group flex h-10 w-10 items-center justify-center rounded-full bg-white transition-all hover:border hover:border-white hover:bg-primary"
     >
-      <Icon className="text-primary group-hover:text-white" size={28} />
+      <Icon className="text-primary group-hover:text-white" size={22} />
     </Link>
   );
 }
