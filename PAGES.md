@@ -1,20 +1,21 @@
-# Lagalebri
+# Lagalebri | Pages
 
 ## Home
+
 - [ ] Header
 - [ ] Banner
 - [ ] Serviços
-- [ ] Casas Disponíveis 
+- [ ] Casas Disponíveis
 
 ## Procurar
+
 - [ ] Barra de pesquisa
 - [ ] Listagem de casas
 
 ## Serviços
-- [ ] 
+
+- [ ]
 
 ## Sobre nós
 
-
 ## Contacto
-  
