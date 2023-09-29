@@ -37,7 +37,7 @@ export function Header() {
   };
 
   return (
-    <header className="fixed left-0 top-0 w-full h-14 bg-white shadow flex items-center justify-between lg:px-16 px-4">
+    <header className="fixed left-0 top-0 w-full h-14 bg-white shadow flex items-center justify-between lg:px-16 px-4 z-50">
       <div>
         <Link href="/" className="flex items-center gap-2">
           <Image
