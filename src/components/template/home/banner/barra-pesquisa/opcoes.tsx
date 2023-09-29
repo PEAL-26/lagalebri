@@ -9,9 +9,10 @@ export function BarraPesquisaOpcoes() {
 
   const getActiveClass = (op: OpcoesType) => {
     const className = {
-      active: "py-3 px-5 cursor-pointer bg-primary text-white font-bold",
+      active:
+        "py-3 max-sm:py-1 px-5 max-sm:px-2 cursor-pointer bg-primary text-white max-sm:text-sm  ",
       inactive:
-        "py-3 px-5 cursor-pointer hover:bg-primary hover:text-white transition-all",
+        "py-3 max-sm:py-1 px-5 max-sm:px-2 cursor-pointer hover:bg-primary hover:text-white transition-all max-sm:text-sm ",
     };
 
     return className[opcoes === op ? "active" : "inactive"];

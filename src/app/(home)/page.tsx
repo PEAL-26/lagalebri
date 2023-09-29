@@ -1,5 +1,5 @@
-import { Banner } from "@/components/home/banner";
-import { QuemSomos } from "@/components/home/quem-somos";
+import { Banner } from "@/components/template/home/banner";
+import { QuemSomos } from "@/components/template/home/quem-somos";
 
 export const metadata = {
   title: "Página Principal",

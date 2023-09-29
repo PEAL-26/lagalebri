@@ -2,8 +2,9 @@ import "../styles/globals.css";
 
 import { Inter } from "next/font/google";
 import { Head } from "./head";
-import { Header } from "@/components/header";
+import { Header } from "@/components/layout/header";
 import { Metadata } from "next";
+import { Footer } from "@/components/layout/footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,8 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <Head />
       <body className={inter.className}>
         <Header />
-        <main className="mt-14">{children}</main>
+        <main className="mt-14 min-h-screen">{children}</main>
+        <Footer />
       </body>
     </html>
   );
