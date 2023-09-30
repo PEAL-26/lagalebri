@@ -12,7 +12,8 @@ export function OpcoesRadio(props: RadioProps) {
       name="opcoes"
       value={value}
       className="sr-only"
-      checked={opcao === value}
+      // checked={opcao === value}
+      defaultChecked={opcao === value}
     />
   );
 }

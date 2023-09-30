@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { TfiTwitter } from "react-icons/tfi";
 import { SlSocialFacebook } from "react-icons/sl";
 import { PiInstagramLogo } from "react-icons/pi";
@@ -5,7 +6,6 @@ import { PiInstagramLogo } from "react-icons/pi";
 import { RedeSocial } from "./rede-social";
 import { Logo } from "@/components/shared/logo";
 import { FooterContactos } from "./contactos";
-import Link from "next/link";
 
 export function Footer() {
   return (

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { LogoMarca } from "./logo-marca";
 
 interface LogoProps {
   color?: "default" | "white";
@@ -16,13 +16,7 @@ export function Logo(props: LogoProps) {
 
   return (
     <Link href="/" className="flex items-center gap-2">
-      <Image
-        width={32}
-        height={38.36}
-        src="/logo-w512.png"
-        alt="lagalebri-logo"
-        className="object-contain"
-      />
+      <LogoMarca width={32} height={38.36} color={color} />
       <span
         className={`flex-col ${className} flex text-2xl font-bold uppercase leading-none `}
       >

@@ -1,0 +1,49 @@
+import { SVGProps } from "react";
+
+interface LogoMarca extends SVGProps<SVGSVGElement> {
+  color: "default" | "white";
+}
+
+export function LogoMarca(props: LogoMarca) {
+  const { color, ...rest } = props;
+
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="43.3492mm"
+      height="41.5704mm"
+      version="1.1"
+      style={{
+        shapeRendering: "geometricPrecision",
+        textRendering: "geometricPrecision",
+        imageRendering: "-webkit-optimize-contrast",
+        fillRule: "evenodd",
+        clipRule: "evenodd",
+      }}
+      viewBox="0 0 4334.92 4157.04"
+      {...rest}
+    >
+      <defs>
+        <linearGradient
+          id="id0"
+          gradientUnits="userSpaceOnUse"
+          x1="-1391.09"
+          y1="2077.08"
+          x2="5726.01"
+          y2="2088.55"
+        >
+          <stop offset="0" stopColor={"#035F8E"} stopOpacity={1} />
+          <stop offset="0.760784" stopColor={"#05354D"} stopOpacity={1} />
+          <stop offset="1" stopOpacity={1} stopColor={"#070A0B"} />
+        </linearGradient>
+      </defs>
+      <g>
+        <metadata />
+        <path
+          d="M-0 1731.45c0,85.58 60.43,126.99 135.47,126.99l279.4 0 0 1955.76c0,121.83 19.33,202.13 82.16,264.96 62.83,62.84 143.14,82.17 264.97,82.17l677.33 0c143.69,0 238.82,-40.48 288.17,-135.16 51.09,-98.03 33.56,-244.63 33.56,-389.77 0,-141.1 0,-282.2 0,-423.32 0,-87.92 -28.23,-287.86 135.47,-287.86l567.26 0c141.99,0 110.07,250.31 110.07,313.26l-0.11 635.11c-1.5,212.66 153.12,287.74 347.24,287.74l651.93 0c245.73,0 347.13,-101.4 347.13,-347.13l0 -1955.76c130.18,0 414.87,35.71 414.87,-101.59 0,-92.28 -43.69,-120.18 -117.42,-178.91l-452.54 -368.72c-36.88,-29.04 -48.77,-21.89 -48.71,-86.76l-0.15 -677.16c-8.01,-70.38 -72.5,-127.75 -151.64,-127.75l-330.2 0c-185.81,0 -152.4,218.2 -152.4,330.19 -37.08,-19.61 -69.58,-52.98 -105.26,-81.01l-364.1 -296.29c-22.75,-17.75 -29.06,-25.35 -50.68,-42.45 -95.68,-75.65 -245.82,-223.7 -352.03,-223.7 -205.39,0 -195.99,32.43 -379.88,178.91 -354.59,282.42 -709.77,585.71 -1064.34,866.04 -191.08,151.07 -403.16,337.15 -596.18,487.53l-129.44 107.63c-15.51,17.58 -39.95,58.05 -39.95,87.05z"
+          fill={color === "white" ? "#ffffff" : "url(#id0)"}
+        />
+      </g>
+    </svg>
+  );
+}

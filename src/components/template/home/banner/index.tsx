@@ -26,12 +26,11 @@ export function Banner() {
         <div className="absolute left-[512px] right-16 top-16">
           <div className="relative h-96 ">
             <Image
-              // width={726}
-              // height={560}
               alt="house-searching"
               src="/images/house-searching.svg"
               className="h-full w-full object-contain"
               fill
+              priority
             />
           </div>
         </div>

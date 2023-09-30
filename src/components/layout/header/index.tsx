@@ -1,18 +1,17 @@
 "use client";
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import useMediaQuery from "@/hooks/use-media-query";
 import { Logo } from "@/components/shared/logo";
 
-const LINKS = {
-  home: "/",
-  procurar: "/procurar",
-  servicos: "/servicos",
-  sobreNos: "/sobre-nos",
-  contacto: "/contacto",
-};
+const LINKS = [
+  { titulo: "Página Principal", href: "/" },
+  { titulo: "Procurar", href: "/procurar" },
+  { titulo: "Serviços", href: "/servicos" },
+  { titulo: "Sobre Nós", href: "/sobre-nos" },
+  { titulo: "Contacto", href: "/contacto" },
+];
 
 export function Header() {
   const pathname = usePathname();
@@ -57,33 +56,15 @@ export function Header() {
             >
               close
             </button>
-            <Link className={"" + getClassName(LINKS.home)} href={LINKS.home}>
-              Página Principal
-            </Link>
-            <Link
-              className={getClassName(LINKS.procurar)}
-              href={LINKS.procurar}
-            >
-              Procurar
-            </Link>
-            <Link
-              className={getClassName(LINKS.servicos)}
-              href={LINKS.servicos}
-            >
-              Serviços
-            </Link>
-            <Link
-              className={getClassName(LINKS.sobreNos)}
-              href={LINKS.sobreNos}
-            >
-              Sobre nós
-            </Link>
-            <Link
-              className={getClassName(LINKS.contacto)}
-              href={LINKS.contacto}
-            >
-              Contacto
-            </Link>
+            {LINKS.map((link, index) => (
+              <Link
+                key={index}
+                className={getClassName(link.href)}
+                href={link.href}
+              >
+                {link.titulo}
+              </Link>
+            ))}
           </nav>
         </div>
       </div>
