@@ -5,7 +5,7 @@ import { Card } from "./card";
 
 export function HomeImobiliariaConfianca() {
   return (
-    <Section>
+    <Section backgroundColor="white">
       <div className="relative h-[412px] w-[577px] rounded-2xl">
         <Image
           src={"/images/house-car.png"}
@@ -15,17 +15,18 @@ export function HomeImobiliariaConfianca() {
         />
       </div>
       <div className="ml-12 flex flex-col">
-        <h3 className="relative w-80 text-4xl font-bold text-black">
+        <h3 className="relative w-80 text-3xl font-bold text-black">
           Sua imobiliária de confiança
           <Link
             href="/contacto"
-            className="absolute right-0 top-10 h-10 w-10 rounded-full bg-primary"
+            className="absolute right-0 top-10 flex h-14 w-14 items-center justify-center rounded-full border border-primary bg-primary"
           >
             <Image
               src="/images/contactar-nos.png"
               alt="contactar-nos"
-              fill
-              className="rounded-full bg-primary object-cover"
+              width={48}
+              height={48}
+              className="rounded-full bg-primary object-fill"
             />
           </Link>
         </h3>

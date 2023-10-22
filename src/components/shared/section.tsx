@@ -6,7 +6,7 @@ interface SectionProps extends HTMLProps<HTMLDivElement> {
 }
 
 export function Section(props: SectionProps) {
-  const { children, backgroundColor = "", className, ...rest } = props;
+  const { children, backgroundColor = "#F6F6F6", className, ...rest } = props;
   return (
     <section className="w-full" style={{ backgroundColor }}>
       <div
