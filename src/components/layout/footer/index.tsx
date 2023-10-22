@@ -15,9 +15,12 @@ export function Footer() {
         <FooterContactos />
         <hr className="bg-white/50" />
         <div className="mb-16 mt-12 flex gap-3">
-          <RedeSocial icon={SlSocialFacebook} url="https://facebook.com/" />
-          <RedeSocial icon={PiInstagramLogo} url="https://instagram.com/" />
-          <RedeSocial icon={TfiTwitter} url="https://twitter.com/" />
+          <RedeSocial
+            icon={SlSocialFacebook}
+            url="https://www.facebook.com/LadislauDeBrito"
+          />
+          {/* <RedeSocial icon={PiInstagramLogo} url="https://instagram.com/" />
+          <RedeSocial icon={TfiTwitter} url="https://twitter.com/" /> */}
         </div>
         <div className="flex items-center justify-between max-sm:flex-col max-sm:gap-3">
           <span className="text-sm font-normal text-white max-sm:text-center">

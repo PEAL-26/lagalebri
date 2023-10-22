@@ -9,7 +9,7 @@ import { Footer } from "@/components/layout/footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Página Principal",
+  title: { default: "Página Principal", template: "%s | Lagalebri" },
   description:
     "Concretize seus projetos e tenha a casa dos seus sonhos com a Lagalebri - sua parceira confiável em construção e tecnologia.",
   manifest: "/manifest.json",

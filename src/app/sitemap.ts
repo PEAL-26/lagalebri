@@ -22,5 +22,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: "https://www.lagalebri.ao/sobre-nos",
       lastModified: new Date(),
     },
+    {
+      url: "https://www.lagalebri.ao/termos-privacidade",
+      lastModified: new Date(),
+    },
   ];
 }

@@ -4,7 +4,7 @@ import { BarraPesquisa } from "./barra-pesquisa";
 
 export function Banner() {
   return (
-    <div className="w-full bg-background">
+    <section className="w-full bg-background">
       <div className="relative mx-auto flex max-w-screen-xl flex-col px-4 pb-10 lg:px-16 lg:pt-16">
         <div className="flex flex-col lg:max-w-md">
           <h1 className="text-2xl font-bold text-black lg:text-6xl">
@@ -29,12 +29,13 @@ export function Banner() {
               alt="house-searching"
               src="/images/house-searching.svg"
               className="h-full w-full object-contain"
+              decoding="async"
               fill
               priority
             />
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

@@ -1,7 +1,10 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { BiMenu } from "react-icons/bi";
+import { GrClose } from "react-icons/gr";
+import { MouseEvent, useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+
 import useMediaQuery from "@/hooks/use-media-query";
 import { Logo } from "@/components/shared/logo";
 
@@ -18,6 +21,7 @@ export function Header() {
 
   const isDevice = useMediaQuery("(max-width: 1023px)");
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
 
   const openMenu = () => setIsOpenMenu(true);
   const closeMenu = () => setIsOpenMenu(false);
@@ -25,6 +29,22 @@ export function Header() {
   useEffect(() => {
     closeMenu();
   }, [isDevice]);
+
+  useEffect(() => {
+    closeMenu();
+
+    const handleClickBackDrop = (e: Event) => {
+      // if (e.currentTarget === navRef.current?.) {
+      //   closeMenu();
+      // }
+    };
+
+    document.body.addEventListener("click", handleClickBackDrop);
+
+    return () => {
+      document.body.removeEventListener("click", handleClickBackDrop);
+    };
+  }, []);
 
   const getClassName = (url: string) => {
     const active = url === pathname;
@@ -42,19 +62,25 @@ export function Header() {
         <div>
           <Logo />
         </div>
-        <button onClick={openMenu} className="block lg:hidden">
-          menu
+        <button
+          onClick={openMenu}
+          className="flex items-center justify-center lg:hidden"
+        >
+          <BiMenu size={40} />
         </button>
         <div
           data-open={isOpenMenu}
           className="inset-y-0 w-72 transition-all max-lg:fixed  max-lg:border-l max-lg:bg-white max-lg:shadow data-[open=false]:max-lg:-right-full data-[open=true]:max-lg:right-0 lg:w-fit"
         >
-          <nav className="relative flex h-full w-full flex-col pt-16 lg:flex-row lg:gap-6 lg:pt-0">
+          <nav
+            ref={navRef}
+            className="relative flex h-full w-full flex-col pt-16 lg:flex-row lg:gap-6 lg:pt-0"
+          >
             <button
               onClick={closeMenu}
-              className="absolute right-3 top-3 block h-10 w-10 rounded lg:hidden "
+              className="absolute right-3 top-3 flex h-10 w-10 items-center justify-center rounded lg:hidden "
             >
-              close
+              <GrClose size={30} />
             </button>
             {LINKS.map((link, index) => (
               <Link

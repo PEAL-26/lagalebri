@@ -8,6 +8,7 @@ export function OpcoesRadio(props: RadioProps) {
 
   return (
     <input
+      id={value}
       type="radio"
       name="opcoes"
       value={value}

@@ -20,27 +20,27 @@ export function BarraPesquisaOpcoes() {
 
   return (
     <div className="flex w-max rounded-t-lg border border-b-0 bg-white">
-      <div
+      <label
         className={`rounded-ss-lg ${getActiveClass("comprar")}`}
         onClick={() => setOpcoes("comprar")}
       >
         Comprar
         <OpcoesRadio opcao={opcoes} value="comprar" />
-      </div>
-      <div
+      </label>
+      <label
         className={`${getActiveClass("arrendar")}`}
         onClick={() => setOpcoes("arrendar")}
       >
         Arrendar
         <OpcoesRadio opcao={opcoes} value="arrendar" />
-      </div>
-      <div
+      </label>
+      <label
         className={`rounded-se-lg ${getActiveClass("vender")}`}
         onClick={() => setOpcoes("vender")}
       >
         Vender
         <OpcoesRadio opcao={opcoes} value="vender" />
-      </div>
+      </label>
     </div>
   );
 }

@@ -1,5 +1,4 @@
-import { Banner } from "@/components/template/home/banner";
-import { QuemSomos } from "@/components/template/home/quem-somos";
+import { Banner, HomeImobiliariaConfianca } from "@/components/template/home";
 
 export const metadata = {
   title: "Página Principal",
@@ -11,7 +10,7 @@ export default function HomePage() {
   return (
     <>
       <Banner />
-      <QuemSomos />
+      <HomeImobiliariaConfianca />
     </>
   );
 }
