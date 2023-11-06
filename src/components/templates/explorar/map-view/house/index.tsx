@@ -14,12 +14,15 @@ import { MapViewHouseInfoProps } from './types';
 export function MapViewHouseInfo(props: MapViewHouseInfoProps) {
   const { show, id } = props;
 
+  const [hide, setHide] = useState(false);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const fadeIn = () => {
+    setHide(false);
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: 5000,
+      duration: 500,
       useNativeDriver: true,
     }).start();
   };
@@ -27,9 +30,9 @@ export function MapViewHouseInfo(props: MapViewHouseInfoProps) {
   const fadeOut = () => {
     Animated.timing(fadeAnim, {
       toValue: 0,
-      duration: 3000,
+      duration: 500,
       useNativeDriver: true,
-    }).start();
+    }).start(() => setHide(true));
   };
 
   // Queries
@@ -46,9 +49,11 @@ export function MapViewHouseInfo(props: MapViewHouseInfoProps) {
     router.push(`/(tabs)/explorar/${id}`);
   };
 
+  if (hide) return null;
+
   return (
     <TouchableOpacity style={styles.main} onPress={goToDetails}>
-      <View style={styles.container}>
+      <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
         {isLoading && <Loading />}
         {isError && <Text>Erro ao carregar!</Text>}
         {!isLoading && !isError && (
@@ -96,7 +101,7 @@ export function MapViewHouseInfo(props: MapViewHouseInfoProps) {
             </View>
           </>
         )}
-      </View>
+      </Animated.View>
     </TouchableOpacity>
   );
 }

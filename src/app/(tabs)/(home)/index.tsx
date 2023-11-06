@@ -1,12 +1,13 @@
-import { ScrollView } from '@/components/shared/scroll-view';
+import { RefreshControl, View } from 'react-native';
+
 import {
-  HeaderCategories,
   HomeHeader,
   ListHouses,
+  HeaderCategories,
   SuggestionsButtons,
 } from '@/components/templates/home';
 import { colors } from '@/styles/colors';
-import { RefreshControl, View } from 'react-native';
+import { ScrollView } from '@/components/shared/scroll-view';
 
 export default function HomeScreen() {
   return (

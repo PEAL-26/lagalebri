@@ -14,7 +14,7 @@ export function HomeHeader() {
     <View style={[styles.container, { paddingTop: paddingTop + 32 }]}>
       <HeaderUser onPress={() => router.push('/login')} />
       <HeaderLocation />
-      <HeaderNotification />
+      <HeaderNotification onPress={() => router.push('/notificacoes/')} />
     </View>
   );
 }

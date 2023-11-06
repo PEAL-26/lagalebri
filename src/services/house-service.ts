@@ -9,6 +9,15 @@ export type HouseListType = {
   imageUrl: string;
 };
 
+export type MarkerType = {
+  id: string;
+  price: string;
+  coordinate: {
+    latitude: number;
+    longitude: number;
+  };
+};
+
 type ListQuery = {};
 
 type ListAllQuery = {
@@ -62,9 +71,25 @@ export async function listAll(query: ListAllQuery) {
   ];
 }
 
-export function listForMap() {
-  // id, price | location:{lat, lng}
-  return [];
+export function listMarkers() {
+  return [
+    {
+      id: '1',
+      price: '12',
+      coordinate: {
+        latitude: 37.78825,
+        longitude: -122.4324,
+      },
+    },
+    {
+      id: '2',
+      price: '12',
+      coordinate: {
+        latitude: 37.78825,
+        longitude: -122.4324,
+      },
+    },
+  ];
 }
 
 export function list(query: ListQuery) {}

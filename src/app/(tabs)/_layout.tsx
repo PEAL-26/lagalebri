@@ -8,7 +8,10 @@ export default function TabsLayout() {
   const segments = useSegments();
   const route = useRouter();
 
-  const hideTab = segments[0] === '(tabs)' && segments[1] === 'explorar' && segments[2] === '[id]';
+  const hideTab =
+    (segments[0] === '(tabs)' && segments[1] === 'explorar' && segments[2] === '[id]') ||
+    (segments[0] === '(tabs)' && segments[1] === 'favoritos') ||
+    (segments[0] === '(tabs)' && segments[1] === 'notificacoes');
 
   return (
     <Tabs
@@ -51,6 +54,20 @@ export default function TabsLayout() {
             route.push('/(tabs)/config');
           },
         })}
+      />
+
+      <Tabs.Screen
+        name="notificacoes/index"
+        options={{
+          href: null,
+        }}
+      />
+      
+      <Tabs.Screen
+        name="favoritos/index"
+        options={{
+          href: null,
+        }}
       />
     </Tabs>
   );
