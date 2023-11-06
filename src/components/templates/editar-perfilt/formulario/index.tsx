@@ -17,13 +17,16 @@ export function EditarPerfilFormulario() {
 
   return (
     <View style={styles.container}>
-      <InputText
-        label="Nome"
-        placeholder="Nome do usuário"
-        editable={profile.provider ? false : true}
-      />
+      <View style={styles.containerInputs}>
+        <InputText
+          label="Nome"
+          placeholder="Nome do usuário"
+          editable={profile.provider ? false : true}
+        />
+        <InputPhone label="Telefone" value={profile.telefone} />
 
-      <InputPhone label="Telefone" value={profile.telefone} />
+        <Button type="square" variant="primary" text="Guardar" style={{ marginTop: 20 }} />
+      </View>
 
       <Button
         type="square"

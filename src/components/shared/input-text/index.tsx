@@ -9,7 +9,13 @@ export function InputText(props: InputTextProps) {
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.input} placeholderTextColor="#929292" {...rest} />
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholderTextColor="#929292"
+          placeholder="Nome do usuário"
+        />
+      </View>
     </View>
   );
 }
