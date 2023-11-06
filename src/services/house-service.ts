@@ -15,8 +15,51 @@ type ListAllQuery = {
   pageParam?: number;
 };
 
-export function listAll(query: ListAllQuery) {
+export async function listAll(query: ListAllQuery) {
   const { pageParam = 1 } = query;
+
+  return [
+    {
+      id: '1',
+      title: 'titulo vghfghfgjgyj fthfghygj fhfgjghj',
+      price: '12',
+      distance: 2,
+      address: 'Localização fghfgh thftg',
+      rating: 1,
+      views: '12',
+      imageUrl: 'https://picsum.photos/200/300',
+    },
+    {
+      id: '1',
+      title: 'titulo vghfghfgjgyj fthfghygj fhfgjghj',
+      price: '12',
+      distance: 2,
+      address: 'Localização fghfgh thftg',
+      rating: 1,
+      views: '12',
+      imageUrl: 'https://picsum.photos/200/300',
+    },
+    {
+      id: '1',
+      title: 'titulo vghfghfgjgyj fthfghygj fhfgjghj',
+      price: '12',
+      distance: 2,
+      address: 'Localização fghfgh thftg',
+      rating: 1,
+      views: '12',
+      imageUrl: 'https://picsum.photos/200/300',
+    },
+    {
+      id: '1',
+      title: 'titulo vghfghfgjgyj fthfghygj fhfgjghj',
+      price: '12',
+      distance: 2,
+      address: 'Localização fghfgh thftg',
+      rating: 1,
+      views: '12',
+      imageUrl: 'https://picsum.photos/200/300',
+    },
+  ];
 }
 
 export function listForMap() {
@@ -26,4 +69,17 @@ export function listForMap() {
 
 export function list(query: ListQuery) {}
 
-export function getById(id: string) {}
+export function getById(id: string): Promise<HouseListType> {
+  return new Promise((resolve) => {
+    resolve({
+      id,
+      title: 'titulo vghfghfgjgyj fthfghygj fhfgjghj',
+      price: '12',
+      distance: 2,
+      address: 'Localização fghfgh thftg',
+      rating: 1,
+      views: '12',
+      imageUrl: 'https://picsum.photos/200/300',
+    });
+  });
+}

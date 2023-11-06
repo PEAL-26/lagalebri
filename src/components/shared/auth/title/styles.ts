@@ -11,6 +11,13 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     gap: 4,
   },
+  button:{
+    height: 24,
+    width: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 4
+  },
   title: {
     color: colors.black,
     fontSize: 20,

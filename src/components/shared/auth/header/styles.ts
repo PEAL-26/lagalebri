@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
     height: '71%',
     top: 0,
     zIndex: 10,
+    
   },
   container: {
     position: 'relative',

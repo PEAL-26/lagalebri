@@ -1,4 +1,5 @@
 import { ElementType, ReactNode } from 'react';
+import { StyleProp , ViewStyle} from 'react-native';
 import { SvgProps } from 'react-native-svg';
 
 export type TabBarIconType = {
@@ -12,5 +13,5 @@ export type IconType = ElementType<SvgProps>;
 export interface TabScreenOptionsOutput {
   title?: string | undefined;
   tabBarIcon?: (props: TabBarIconType) => ReactNode;
-  tabBarStyle?: { display: 'none' | 'flex' };
+  tabBarStyle?:  StyleProp<ViewStyle>;
 }

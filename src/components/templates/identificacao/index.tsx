@@ -1,25 +1,30 @@
-import { AuthTitle } from '@/components/shared/auth';
-import { Button } from '@/components/shared/button';
 import { TextInput, View } from 'react-native';
+
+import { Button } from '@/components/shared/button';
+import { AuthTitle } from '@/components/shared/auth';
+import { ScrollView } from '@/components/shared/scroll-view';
+
 import { styles } from './styles';
 
 export function TemplateIdentificacao() {
   return (
-    <View style={{ paddingBottom: 16 }}>
-      <AuthTitle
-        title="Qual é o seu nome?"
-        description="Insira o seu nome para a sua identificação."
-      />
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholderTextColor="#929292"
-          placeholder="Nome do usuário"
+    <ScrollView>
+      <View style={styles.container}>
+        <AuthTitle
+          title="Qual é o seu nome?"
+          description="Insira o seu nome para a sua identificação."
         />
-      </View>
 
-      <Button type="square" variant="primary" text="Continuar" style={{ marginTop: 20 }} />
-    </View>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholderTextColor="#929292"
+            placeholder="Nome do usuário"
+          />
+        </View>
+
+        <Button type="square" variant="primary" text="Continuar" style={{ marginTop: 20 }} />
+      </View>
+    </ScrollView>
   );
 }

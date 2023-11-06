@@ -12,5 +12,7 @@ export const getTabScreenOptions = (
   ),
   tabBarStyle: {
     display: hide ? 'none' : 'flex',
+    backgroundColor: 'white',
+    height: 64,
   },
 });

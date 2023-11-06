@@ -1,6 +1,7 @@
 import { View } from 'react-native';
-import { ContainerProps } from './types';
+
 import { styles } from './styles';
+import { ContainerProps } from './types';
 import { ScrollView } from '../../scroll-view';
 
 export function Container(props: ContainerProps) {
@@ -8,9 +9,7 @@ export function Container(props: ContainerProps) {
 
   return (
     <View style={styles.main}>
-      <View style={styles.container}>
-        <ScrollView styleView={styles.scrollView}>{children}</ScrollView>
-      </View>
+      <View style={styles.container}>{children}</View>
     </View>
   );
 }

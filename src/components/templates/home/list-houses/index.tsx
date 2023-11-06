@@ -1,14 +1,20 @@
 import { View } from 'react-native';
-import { styles } from './styles';
+import { useQuery } from '@tanstack/react-query';
+
+import { listAll } from '@/services/house-service';
+
 import { House } from './house';
-import { HouseListType } from '@/services/house-service';
+import { styles } from './styles';
 
 export function ListHouses() {
-  const data: HouseListType[] = [];
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['houses'],
+    queryFn: async () => listAll({}),
+  });
 
   return (
     <View style={styles.container}>
-      {data.map((item) => (
+      {data?.map((item) => (
         <House key={item.id} data={item} />
       ))}
     </View>

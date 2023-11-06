@@ -1,6 +1,9 @@
 import { StyleSheet, Platform } from 'react-native';
 
 export const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 16,
+  },
   inputContainer: {
     height: 50,
     width: '100%',

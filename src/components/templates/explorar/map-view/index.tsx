@@ -21,12 +21,13 @@ export function MapView() {
       <RNMapView
         style={styles.map}
         initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
+          latitude: -8.998735,
+          longitude: 13.398209,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
       />
+
       <MapViewHouseInfo show={showInfo} id={id} />
     </View>
   );

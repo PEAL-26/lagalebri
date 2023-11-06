@@ -1,10 +1,11 @@
-import { useState } from 'react';
 import { router } from 'expo-router';
-import { Image, Text, TouchableOpacity, View } from 'react-native';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useRef, useState } from 'react';
+import { Image, Text, TouchableOpacity, View, Animated } from 'react-native';
 
 import { colors } from '@/styles/colors';
 import { Loading } from '@/components/shared/loading';
-import { HouseListType } from '@/services/house-service';
+import { HouseListType, getById } from '@/services/house-service';
 import { LocateFixedIcon, MapPinIcon, StarIcon } from '@/assets/icons';
 
 import { styles } from './styles';
@@ -12,42 +13,59 @@ import { MapViewHouseInfoProps } from './types';
 
 export function MapViewHouseInfo(props: MapViewHouseInfoProps) {
   const { show, id } = props;
-  const [isLoading, setIsLoading] = useState(false);
 
-  const data: HouseListType = {
-    title: 'titulo vghfghfgjgyj fthfghygj fhfgjghj',
-    price: '12',
-    distance: 2,
-    address:
-      'Localização fghfgh thftgj fhfgyj fsdfsrg drgd rg rd gd r gdr g dr g rg erg erh  tg hft gnf gh nf tn f th ft g',
-    rating: 1,
-    views: '12',
-  } as HouseListType;
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  const fadeIn = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 5000,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  const fadeOut = () => {
+    Animated.timing(fadeAnim, {
+      toValue: 0,
+      duration: 3000,
+      useNativeDriver: true,
+    }).start();
+  };
+
+  // Queries
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['house'],
+    queryFn: () => getById(id),
+  });
+
+  useEffect(() => {
+    show ? fadeIn() : fadeOut();
+  }, [show]);
 
   const goToDetails = () => {
-    // router.push(`/(tabs)/explorar/${id}`);
-    router.push(`/(tabs)/explorar/kfhkdhfkdhfukhfgk`);
-    console.log({ id });
+    router.push(`/(tabs)/explorar/${id}`);
   };
 
   return (
     <TouchableOpacity style={styles.main} onPress={goToDetails}>
       <View style={styles.container}>
         {isLoading && <Loading />}
-        {!isLoading && (
+        {isError && <Text>Erro ao carregar!</Text>}
+        {!isLoading && !isError && (
           <>
             <Image
               source={{
-                uri: data.imageUrl,
+                uri: data?.imageUrl,
               }}
               style={styles.image}
             />
             <View style={styles.containerInfo}>
+              {/* title and price */}
               <View style={styles.groupBetween}>
                 <Text style={styles.infoTitle} numberOfLines={1}>
-                  {data.title}
+                  {data?.title}
                 </Text>
-                <Text style={styles.infoPrice}>{`${data.price}`}</Text>
+                <Text style={styles.infoPrice}>{`${data?.price}`}</Text>
               </View>
               <View style={styles.infoLocationContainer}>
                 {/* address and distance */}
@@ -55,12 +73,12 @@ export function MapViewHouseInfo(props: MapViewHouseInfoProps) {
                   <View style={[styles.iconDescription, { flex: 1 }]}>
                     <MapPinIcon />
                     <Text style={styles.infoLocation} numberOfLines={1}>
-                      {data.address}
+                      {data?.address}
                     </Text>
                   </View>
                   <View style={styles.iconDescription}>
                     <LocateFixedIcon width={16} height={16} color={colors.black} />
-                    <Text style={styles.infoDistance}>{`${data.distance} M`}</Text>
+                    <Text style={styles.infoDistance}>{`${data?.distance} M`}</Text>
                   </View>
                 </View>
 
@@ -68,9 +86,9 @@ export function MapViewHouseInfo(props: MapViewHouseInfoProps) {
                 <View style={styles.iconDescription}>
                   <StarIcon color={colors.black} />
                   <Text style={styles.infoRating}>
-                    {`${data.rating} Avaliação `}
+                    {`${data?.rating} Avaliação `}
                     <Text style={styles.infoViews} numberOfLines={1}>
-                      {`(${data.views} Visualizações)`}
+                      {`(${data?.views} Visualizações)`}
                     </Text>
                   </Text>
                 </View>

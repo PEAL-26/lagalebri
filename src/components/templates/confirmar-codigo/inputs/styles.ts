@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
@@ -20,12 +20,13 @@ export const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    paddingLeft: 58,
-    paddingRight: 12,
-    width: '100%',
-    height: '100%',
     fontSize: 12,
     fontWeight: '400',
-    outlineColor: 'transparent',
+    ...Platform.select({
+      web: {
+        outlineColor: 'transparent',
+      },
+    }),
+    textAlign: 'center',
   },
 });
