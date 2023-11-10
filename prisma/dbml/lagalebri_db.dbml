@@ -1,0 +1,166 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Project "LagalebriDB" {
+  database_type: 'PostgreSQL'
+  Note: 'Lagalebri - Imobiliária'
+}
+
+Table properties {
+  id String [pk]
+  title String [not null]
+  description String [default: '']
+  price Decimal
+  imageUrl String
+  area Decimal
+  address String
+  latitude Decimal
+  longitude Decimal
+  createAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+  categories categories [not null]
+  favorites favorites [not null]
+  rating ratings [not null]
+  images images [not null]
+  views views [not null]
+  compartiments compartiments [not null]
+  interatios interations [not null]
+}
+
+Table compartiments {
+  id String [pk]
+  property properties [not null]
+  propertyId String [unique, not null]
+  name String [not null]
+  quantity Int [not null]
+  createAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+}
+
+Table images {
+  id String [pk]
+  property properties [not null]
+  propertyId String [not null]
+  url String [not null]
+}
+
+Table categories {
+  id String [pk]
+  name String [unique, not null]
+  description String [default: '']
+  createAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+  properties properties [not null]
+}
+
+Table favorites {
+  property properties [not null]
+  propertyId String [not null]
+  user users [not null]
+  userId String [not null]
+
+  indexes {
+    (propertyId, userId) [unique]
+  }
+}
+
+Table ratings {
+  property properties [not null]
+  propertyId String [not null]
+  user users [not null]
+  userId String [not null]
+  start Int [not null]
+  createAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+
+  indexes {
+    (propertyId, userId) [unique]
+  }
+}
+
+Table views {
+  id String [pk]
+  property properties [not null]
+  propertyId String [not null]
+  user users [not null]
+  userId String [not null]
+  createAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+}
+
+Table interations {
+  id String [pk]
+  property properties [not null]
+  propertyId String [not null]
+  user users [not null]
+  userId String [not null]
+  type InteractionTypes [not null]
+  metadata String [not null]
+  createAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+}
+
+Table users {
+  id String [pk]
+  email String [unique]
+  phone String [unique]
+  createAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+  favorites favorites [not null]
+  rating ratings [not null]
+  views views [not null]
+  interatios interations [not null]
+  searchHistories search_histories [not null]
+  profile profiles
+}
+
+Table profiles {
+  user users [not null]
+  userId String [pk]
+  name String [not null]
+  notification Boolean [not null, default: true]
+  createAt DateTime [not null]
+  updateAt DateTime [not null]
+}
+
+Table search_histories {
+  id String [pk]
+  user users [not null]
+  userId String [not null]
+  search String [not null]
+  category String [default: '']
+  createAt DateTime [not null]
+  updateAt DateTime [not null]
+}
+
+Enum InteractionTypes {
+  VIEW
+  FAVORITE
+  CONTACT
+  RATING
+}
+
+Ref: compartiments.propertyId > properties.id
+
+Ref: images.propertyId > properties.id
+
+Ref: favorites.propertyId > properties.id
+
+Ref: favorites.userId > users.id
+
+Ref: ratings.propertyId > properties.id
+
+Ref: ratings.userId > users.id
+
+Ref: views.propertyId > properties.id
+
+Ref: views.userId > users.id
+
+Ref: interations.propertyId > properties.id
+
+Ref: interations.userId > users.id
+
+Ref: profiles.userId - users.id
+
+Ref: search_histories.userId > users.id
