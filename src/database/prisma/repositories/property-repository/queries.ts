@@ -14,37 +14,37 @@ export class PropertyQueriesRepository {
     const { limit, offset } = setPagination({ page, size });
 
     const properties = await this.prisma.$queryRaw<PropertyListData[]>`
-      SELECT 
-        properties.id, 
-        properties.title, 
-        properties.slug, 
-        properties.price, 
-        properties.image_url, 
-        properties.address, 
-        properties.latitude, 
+      SELECT
+        properties.id,
+        properties.title,
+        properties.slug,
+        properties.price,
+        properties.image_url,
+        properties.address,
+        properties.latitude,
         properties.longitude,
         AVG(ratings.stars) as rating,
         COUNT(views.id) as views
-      FROM properties 
-      LEFT JOIN 
+      FROM properties
+      LEFT JOIN
         (
-          SELECT 
+          SELECT
             property_id,
             AVG(stars) as stars
-          FROM 
+          FROM
             ratings
-          GROUP BY 
+          GROUP BY
             property_id
         ) AS ratings
-      ON 
+      ON
         properties.id = ratings.property_id
-      LEFT JOIN 
+      LEFT JOIN
         views
-      ON 
+      ON
         properties.id = views.property_id
-      GROUP BY 
+      GROUP BY
         properties.id
-      LIMIT ${limit} 
+      LIMIT ${limit}
       OFFSET ${offset}`;
 
     /*
@@ -52,7 +52,6 @@ export class PropertyQueriesRepository {
         properties.title LIKE '%${query}%'
     */
     const rows = properties.map(PropertyPrismaMapper.toListPrismaController);
-
     return paginationData({ rows, total: properties.length, limit, page });
   }
 
