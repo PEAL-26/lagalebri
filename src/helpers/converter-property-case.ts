@@ -7,7 +7,7 @@ const validateObject = <T>(obj: T) => {
   }
 };
 
-export const toCamelCase = (obj: any) => {
+export const toCamelCase = <T>(obj: any) => {
   validateObject(obj);
 
   const convertedObject = {};
@@ -17,7 +17,7 @@ export const toCamelCase = (obj: any) => {
     convertedObject[newKey] = value;
   }
 
-  return convertedObject;
+  return convertedObject as T;
 };
 
 export const toSnakeCase = (obj: any) => {

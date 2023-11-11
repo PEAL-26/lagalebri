@@ -10,6 +10,7 @@ Project "LagalebriDB" {
 Table properties {
   id String [pk]
   title String [not null]
+  slug String [unique, not null]
   description String [default: '']
   price Decimal
   imageUrl String
@@ -24,11 +25,12 @@ Table properties {
   rating ratings [not null]
   images images [not null]
   views views [not null]
-  compartiments compartiments [not null]
-  interatios interations [not null]
+  compartments compartments [not null]
+  interactions interations [not null]
+  contacts contacts [not null]
 }
 
-Table compartiments {
+Table compartments {
   id String [pk]
   property properties [not null]
   propertyId String [unique, not null]
@@ -113,6 +115,22 @@ Table users {
   interatios interations [not null]
   searchHistories search_histories [not null]
   profile profiles
+  contact contacts [not null]
+}
+
+Table contacts {
+  id String [pk]
+  user users [not null]
+  userId String [not null]
+  type String [not null]
+  contact String [not null]
+  createAt DateTime [default: `now()`]
+  updateAt DateTime [default: `now()`]
+  property properties [not null]
+
+  indexes {
+    (userId, contact) [unique]
+  }
 }
 
 Table profiles {
@@ -141,7 +159,7 @@ Enum InteractionTypes {
   RATING
 }
 
-Ref: compartiments.propertyId > properties.id
+Ref: compartments.propertyId > properties.id
 
 Ref: images.propertyId > properties.id
 
@@ -160,6 +178,8 @@ Ref: views.userId > users.id
 Ref: interations.propertyId > properties.id
 
 Ref: interations.userId > users.id
+
+Ref: contacts.userId > users.id
 
 Ref: profiles.userId - users.id
 

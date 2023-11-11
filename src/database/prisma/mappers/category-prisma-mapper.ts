@@ -1,5 +1,5 @@
 import { Category as CategoryPrisma } from '@prisma/client';
-import { Category as CategoryEntity } from '@/modules/auxiliaries/entities/category';
+import { Category as CategoryEntity } from '@/domain/entities/category';
 import { toSnakeCase } from '@/helpers/converter-property-case';
 
 export class CategoryPrismaMapper {

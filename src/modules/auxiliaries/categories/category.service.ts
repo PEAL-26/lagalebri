@@ -1,6 +1,6 @@
 import { CategoryRepository } from '@/database/prisma/repositories/category-repository';
 import { Injectable } from '@nestjs/common';
-import { Category } from '../entities/category';
+import { Category } from '../../../domain/entities/category';
 
 import { ExistError, NotFoundError } from '@/helpers/errors';
 import { NotificationError } from '@/helpers/notification-error';

@@ -45,18 +45,6 @@ export class InternalServerError extends HttpException {
   }
 }
 
-export class NotificationError extends HttpException {
-  constructor() {
-    super(
-      {
-        message:
-          'Ocorreu uma falha no sistema. Por favor, entre em contacto com o suporte ou tente mais tarde.',
-      },
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
-  }
-}
-
 export function VerifyError(error: any) {
   if (error?.errors) {
     throw new HttpException(error.errors, HttpStatus.BAD_REQUEST);

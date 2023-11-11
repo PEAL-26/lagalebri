@@ -1,11 +1,11 @@
-generator dbml {
-  provider            = "prisma-dbml-generator"
-  output              = "./dbml"
-  outputName          = "lagalebri_db.dbml"
-  projectName         = "LagalebriDB"
-  projectDatabaseType = "PostgreSQL"
-  projectNote         = "Lagalebri - Imobiliária"
-}
+// generator dbml {
+//    provider            = "prisma-dbml-generator"
+//   output              = "./dbml"
+//   outputName          = "lagalebri_db.dbml"
+//   projectName         = "LagalebriDB"
+//   projectDatabaseType = "PostgreSQL"
+//   projectNote         = "Lagalebri - Imobiliária"
+// }
 
 generator client {
   provider = "prisma-client-js"
@@ -17,46 +17,48 @@ datasource db {
 }
 
 model Property {
-  id            String         @id @unique @db.Uuid
-  title         String         @db.VarChar()
-  description   String?        @default("") @db.Text
-  price         Decimal?       @db.Decimal(18, 2)
-  imageUrl      String?        @map("image_url")
-  area          Decimal?       @db.Decimal(10, 2)
-  address       String?
-  latitude      Decimal?
-  longitude     Decimal?
-  createAt      DateTime?      @default(now()) @map("created_at")
-  updateAt      DateTime?      @default(now()) @updatedAt @map("updated_at")
-  categories    Category[]     @relation("properties_categories")
-  favorites     Favorite[]
-  rating        Rating[]
-  images        Image[]
-  views         View[]
-  compartiments Compartiment[]
-  interatios    Interaction[]
+  id           String        @id @unique @db.Uuid
+  title        String        @db.VarChar()
+  slug         String        @unique @db.VarChar()
+  description  String?       @default("") @db.Text
+  price        Decimal?      @db.Decimal(18, 2)
+  imageUrl     String?       @map("image_url")
+  area         Decimal?      @db.Decimal(10, 2)
+  address      String?
+  latitude     Decimal?
+  longitude    Decimal?
+  createAt     DateTime?     @default(now()) @map("created_at")
+  updateAt     DateTime?     @default(now()) @updatedAt @map("updated_at")
+  categories   Category[]    @relation("properties_categories")
+  favorites    Favorite[]
+  ratings      Rating[]
+  images       Image[]
+  views        View[]
+  compartments Compartment[]
+  interactions Interaction[]
+  contacts     Contact[]     @relation("properties_contacts")
 
   @@index([title])
   @@map("properties")
 }
 
-model Compartiment {
+model Compartment {
   id         String    @id @unique @db.Uuid
   property   Property  @relation(fields: [propertyId], references: [id])
-  propertyId String    @unique @db.Uuid
+  propertyId String    @unique @map("property_id") @db.Uuid
   name       String    @db.VarChar()
   quantity   Int
   createAt   DateTime? @default(now()) @map("created_at")
   updateAt   DateTime? @default(now()) @updatedAt @map("updated_at")
 
   @@index([propertyId, name])
-  @@map("compartiments")
+  @@map("compartments")
 }
 
 model Image {
   id         String   @id @unique @db.Uuid
   property   Property @relation(fields: [propertyId], references: [id])
-  propertyId String   @db.Uuid
+  propertyId String   @map("property_id") @db.Uuid
   url        String   @db.Text
 
   @@index([propertyId])
@@ -77,9 +79,9 @@ model Category {
 
 model Favorite {
   property   Property @relation(fields: [propertyId], references: [id])
-  propertyId String   @db.Uuid
+  propertyId String   @map("property_id") @db.Uuid
   user       User     @relation(fields: [userId], references: [id])
-  userId     String   @db.Uuid
+  userId     String   @map("user_id") @db.Uuid
 
   @@unique([propertyId, userId])
   @@index([propertyId, userId])
@@ -88,10 +90,10 @@ model Favorite {
 
 model Rating {
   property   Property  @relation(fields: [propertyId], references: [id])
-  propertyId String    @db.Uuid
+  propertyId String    @map("property_id") @db.Uuid
   user       User      @relation(fields: [userId], references: [id])
-  userId     String    @db.Uuid
-  start      Int
+  userId     String    @map("user_id") @db.Uuid
+  stars      Int
   createAt   DateTime? @default(now()) @map("created_at")
   updateAt   DateTime? @default(now()) @updatedAt @map("updated_at")
 
@@ -103,9 +105,9 @@ model Rating {
 model View {
   id         String    @id @unique @db.Uuid
   property   Property  @relation(fields: [propertyId], references: [id])
-  propertyId String    @db.Uuid
+  propertyId String    @map("property_id") @db.Uuid
   user       User      @relation(fields: [userId], references: [id])
-  userId     String    @db.Uuid
+  userId     String    @map("user_id") @db.Uuid
   createAt   DateTime? @default(now()) @map("created_at")
   updateAt   DateTime? @default(now()) @updatedAt @map("updated_at")
 
@@ -123,9 +125,9 @@ enum InteractionTypes {
 model Interaction {
   id         String           @id @unique @db.Uuid
   property   Property         @relation(fields: [propertyId], references: [id])
-  propertyId String           @db.Uuid
+  propertyId String           @map("property_id") @db.Uuid
   user       User             @relation(fields: [userId], references: [id])
-  userId     String           @db.Uuid
+  userId     String           @map("user_id") @db.Uuid
   type       InteractionTypes
   metadata   String           @db.Text
   createAt   DateTime?        @default(now()) @map("created_at")
@@ -141,20 +143,36 @@ model User {
   phone           String?         @unique @db.VarChar(9)
   createAt        DateTime?       @default(now()) @map("created_at")
   updateAt        DateTime?       @default(now()) @updatedAt @map("updated_at")
+  profile         Profile?
   favorites       Favorite[]
-  rating          Rating[]
+  ratings         Rating[]
   views           View[]
   interatios      Interaction[]
   searchHistories SearchHistory[]
-  profile         Profile?
+  contacts        Contact[]
 
   @@index([email, phone])
   @@map("users")
 }
 
+model Contact {
+  id       String     @id @unique @db.Uuid
+  user     User       @relation(fields: [userId], references: [id])
+  userId   String     @map("user_id") @db.Uuid
+  type     String     @db.VarChar(150)
+  contact  String
+  createAt DateTime?  @default(now()) @map("created_at")
+  updateAt DateTime?  @default(now()) @updatedAt @map("updated_at")
+  property Property[] @relation("properties_contacts")
+
+  @@unique([userId, contact])
+  @@index([contact])
+  @@map("contacts")
+}
+
 model Profile {
   user         User     @relation(fields: [userId], references: [id])
-  userId       String   @id @unique @db.Uuid
+  userId       String   @id @unique @map("user_id") @db.Uuid
   name         String   @db.VarChar()
   notification Boolean  @default(true)
   createAt     DateTime @map("created_at")
@@ -167,7 +185,7 @@ model Profile {
 model SearchHistory {
   id       String   @id @unique @db.Uuid
   user     User     @relation(fields: [userId], references: [id])
-  userId   String   @db.Uuid
+  userId   String   @map("user_id") @db.Uuid
   search   String
   category String?  @default("") @db.VarChar()
   createAt DateTime @map("created_at")
