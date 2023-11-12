@@ -1,40 +1,34 @@
-import Link from "next/link"
+import Link from 'next/link';
+import { HTMLAttributes } from 'react';
 
-import { cn } from "@/lib/utils"
+import { cn } from '@/lib/utils';
 
-export function MainNav({
-  className,
-  ...props
-}: React.HTMLAttributes<HTMLElement>) {
+export function MainNav(props: HTMLAttributes<HTMLElement>) {
+  const { className, ...rest } = props;
+
   return (
     <nav
-      className={cn("flex items-center space-x-4 lg:space-x-6", className)}
-      {...props}
+      className={cn('flex items-center space-x-4 lg:space-x-6', className)}
+      {...rest}
     >
       <Link
-        href="/examples/dashboard"
+        href="/dashboard"
         className="text-sm font-medium transition-colors hover:text-primary"
       >
-        Overview
+        Dashboard
       </Link>
       <Link
-        href="/examples/dashboard"
+        href="/properties"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Customers
+        Propriedades
       </Link>
       <Link
-        href="/examples/dashboard"
+        href="/users"
         className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
       >
-        Products
-      </Link>
-      <Link
-        href="/examples/dashboard"
-        className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-      >
-        Settings
+        Usuários
       </Link>
     </nav>
-  )
+  );
 }
