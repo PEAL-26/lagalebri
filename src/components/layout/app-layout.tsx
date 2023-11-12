@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Search } from '@/components/search';
 import { UserNav } from '@/components/user-nav';
 import { MainNav } from '@/components/main-nav';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
@@ -16,7 +15,6 @@ export function App({ children }: { children: React.ReactNode }) {
           </Link>
           <MainNav className="mx-6" />
           <div className="ml-auto flex items-center space-x-4">
-            <Search />
             <UserNav />
           </div>
         </div>

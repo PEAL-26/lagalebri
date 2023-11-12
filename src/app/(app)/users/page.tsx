@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const metadata: Metadata = {
-  title: 'Propriedades',
+  title: 'Usuários',
 };
 
 export default function UsersPage() {
