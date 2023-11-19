@@ -16,6 +16,7 @@ interface UserProps extends Partial<EntityDateProps> {
   phone?: string | null;
   name: string;
   notification: boolean;
+  avatar?: string;
   type: UserTypeEnum;
   favorites: Property[];
   ratings: Rating[];
@@ -99,6 +100,14 @@ export class User extends Entity {
 
   public get notification(): boolean {
     return this.props.notification;
+  }
+
+  public get avatar(): string | undefined | null {
+    return this.props.avatar;
+  }
+
+  public set avatar(avatar: string | undefined | null) {
+    this.props.avatar = avatar;
   }
 
   public set notification(notification: boolean) {

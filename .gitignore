@@ -37,3 +37,4 @@ lerna-debug.log*
 
 # Production
 .env.production
+firebase-service-account.json

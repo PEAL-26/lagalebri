@@ -9,6 +9,7 @@ export class UserPrismaMapper {
       email: user.email,
       phone: user.phone,
       type: user.type,
+      avatar: user.avatar,
       createAt: user.createdAt,
       updateAt: user.updatedAt,
     };
@@ -20,7 +21,9 @@ export class UserPrismaMapper {
         email: data.email,
         phone: data.phone,
         name: data.profile?.name,
+        notification: data.profile?.notification,
         type: data.type,
+        avatar: data.avatar,
         createdAt: data.createAt,
         updatedAt: data.updateAt,
       },

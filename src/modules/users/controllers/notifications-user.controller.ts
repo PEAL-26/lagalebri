@@ -1,5 +1,5 @@
 import { VerifyError } from '@/helpers/errors';
-import { Controller, Post, Param } from '@nestjs/common';
+import { Controller, Post, Param, Request } from '@nestjs/common';
 
 import { ReceiveRefuseNotificationsUseCase } from '@/domain/use-cases/users';
 
@@ -8,8 +8,9 @@ export class NotificationsUserController {
   constructor(private useCase: ReceiveRefuseNotificationsUseCase) {}
 
   @Post('notifications/receive/:id')
-  async receive(@Param('id') id: string) {
+  async receive(@Param('id') id: string, @Request() req) {
     try {
+      console.log(req.user);
       await this.useCase.receive(id);
       return { message: 'success' };
     } catch (error) {
@@ -18,8 +19,9 @@ export class NotificationsUserController {
   }
 
   @Post('notifications/refuse/:id')
-  async refuse(@Param('id') id: string) {
+  async refuse(@Param('id') id: string, @Request() req) {
     try {
+      console.log(req.user);
       await this.useCase.refuse(id);
       return { message: 'success' };
     } catch (error) {

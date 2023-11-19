@@ -97,6 +97,7 @@ export class UserQueriesRepository implements UserRepositoryQueryAbstraction {
           email: true,
           phone: true,
           type: true,
+          avatar: true,
         },
         where: where,
         skip: offset,

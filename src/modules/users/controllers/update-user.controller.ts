@@ -13,7 +13,7 @@ export class UpdateUserController {
   @Put(':id')
   async handle(@Param('id') id: string, @Body() body: UpdateUserBody) {
     try {
-      const { name, email, phone, notification, type } = body;
+      const { name, email, phone, notification, type, avatar } = body;
       const { user } = await this.useCase.update({
         id,
         name,
@@ -21,6 +21,7 @@ export class UpdateUserController {
         phone,
         notification,
         type,
+        avatar,
       });
 
       return UserViewModel.toHTTP(user);

@@ -24,5 +24,6 @@ import {
     NotificationsUserController,
   ],
   providers: [UserCRUDUseCases, ReceiveRefuseNotificationsUseCase],
+  exports: [UserCRUDUseCases],
 })
 export class UsersModule {}

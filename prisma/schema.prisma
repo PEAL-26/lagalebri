@@ -156,6 +156,7 @@ model User {
   email           String?         @unique
   phone           String?         @unique @db.VarChar(9)
   type            UserType        @default(NORMAL)
+  avatar          String?
   createAt        DateTime?       @default(now()) @map("created_at")
   updateAt        DateTime?       @default(now()) @updatedAt @map("updated_at")
   profile         Profile?

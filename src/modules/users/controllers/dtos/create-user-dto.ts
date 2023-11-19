@@ -14,4 +14,6 @@ export class CreateUserBody {
 
   @IsEnum(UserTypeEnum)
   type: UserTypeEnum;
+
+  avatar: string;
 }

@@ -53,6 +53,7 @@ export class UserCRUDUseCases {
     if (!isUndefined(request.email)) user.email = request.email;
     if (!isUndefined(request.phone)) user.phone = request.phone;
     if (!isUndefined(request.type)) user.type = request.type;
+    if (!isUndefined(request.avatar)) user.avatar = request.avatar;
     if (!isUndefined(request.notification))
       user.notification = request.notification;
 

@@ -1,15 +1,18 @@
 import { VerifyError } from '@/helpers/errors';
 import { Controller, Post, Body } from '@nestjs/common';
 
-import { PropertyCreateBody } from './dtos/create-property-dto';
-import { CreatePropertyUseCase } from '@/domain/use-cases/properties/create-property-use-case';
+import { Admin } from '@/modules/auth/constants';
 import { toCamelCase } from '@/helpers/converter-property-case';
+import { CreatePropertyUseCase } from '@/domain/use-cases/properties/create-property-use-case';
+
+import { PropertyCreateBody } from './dtos/create-property-dto';
 
 @Controller('properties')
 export class CreatePropertyController {
   constructor(private create: CreatePropertyUseCase) {}
 
   @Post()
+  @Admin()
   async handle(@Body() body: PropertyCreateBody) {
     try {
       const {

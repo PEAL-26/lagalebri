@@ -9,6 +9,7 @@ export class UserViewModel {
       phone: user.phone,
       notification: user.notification,
       type: user.type,
+      avatar: user.avatar,
       created_at: user.createdAt,
       updated_at: user.updatedAt,
     };

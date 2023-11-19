@@ -1,4 +1,8 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { NotificationProps } from '@/shared/notification';
 
 interface NotificationErrorProps {
@@ -79,8 +83,19 @@ export class InternalServerError extends HttpException {
 }
 
 export function VerifyError(error: any) {
+  // Verificar erros personalizados
   if (error?.errors) {
     throw new HttpException(error.errors, HttpStatus.BAD_REQUEST);
+  }
+
+  // Verificar erros do Firebase
+  if (error?.errorInfo) {
+    throw new HttpException(error.errorInfo, HttpStatus.BAD_REQUEST);
+  }
+
+  // Verificar erros de autenticação
+  if (error instanceof UnauthorizedException) {
+    throw error;
   }
 
   throw new InternalServerError();

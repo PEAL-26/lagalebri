@@ -12,4 +12,6 @@ export class UpdateUserBody {
   notification: boolean;
 
   type: UserTypeEnum;
+
+  avatar: string;
 }

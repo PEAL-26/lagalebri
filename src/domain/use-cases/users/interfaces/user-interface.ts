@@ -6,6 +6,7 @@ export interface UserCreateRequest {
   phone?: string;
   type?: UserTypeEnum;
   notification?: boolean;
+  avatar?: string;
 }
 
 export interface UserUpdateRequest {
@@ -15,4 +16,5 @@ export interface UserUpdateRequest {
   phone?: string;
   type?: UserTypeEnum;
   notification?: boolean;
+  avatar?: string;
 }

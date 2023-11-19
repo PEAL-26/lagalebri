@@ -17,8 +17,10 @@ import {
   ListCategoryQuery,
 } from './dtos';
 import { CategoryViewModel } from './category-view-model';
+import { Admin } from '@/modules/auth/constants';
 
 @Controller('categories')
+@Admin()
 export class CategoryController {
   constructor(private categoryService: CategoryUseCases) {}
 
