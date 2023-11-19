@@ -22,7 +22,6 @@ export class ListPropertyController {
 
       return response;
     } catch (error) {
-      console.log(error);
       VerifyError(error);
     }
   }

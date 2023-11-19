@@ -26,6 +26,9 @@ export class UserCommandsRepository
           },
         },
       },
+      include: {
+        profile: true,
+      },
     });
 
     return UserPrismaMapper.toEntity(result);
@@ -46,28 +49,31 @@ export class UserCommandsRepository
         },
       },
       where: { id },
+      include: {
+        profile: true,
+      },
     });
 
     return UserPrismaMapper.toEntity(result);
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.user.delete({ where: { id } });
+    await this.prisma.user.delete({
+      where: { id },
+      include: { profile: true },
+    });
   }
+
   async receiveRefuseNotifications(
     id: string,
     notification: boolean,
   ): Promise<void> {
-    await this.prisma.user.update({
+    await this.prisma.profile.update({
       data: {
-        profile: {
-          update: {
-            notification,
-            updateAt: new Date(),
-          },
-        },
+        notification,
+        updateAt: new Date(),
       },
-      where: { id },
+      where: { userId: id },
     });
   }
 }

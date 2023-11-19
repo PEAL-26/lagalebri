@@ -12,8 +12,8 @@ export enum UserTypeEnum {
 }
 
 interface UserProps extends Partial<EntityDateProps> {
-  email?: string;
-  phone?: string;
+  email?: string | null;
+  phone?: string | null;
   name: string;
   notification: boolean;
   type: UserTypeEnum;
@@ -65,24 +65,44 @@ export class User extends Entity {
       });
   }
 
-  public get email(): string | undefined {
+  public get email(): string | undefined | null {
     return this.props.email;
   }
 
-  public get phone(): string | undefined {
+  public set email(email: string | undefined | null) {
+    this.props.email = email;
+  }
+
+  public get phone(): string | undefined | null {
     return this.props.phone;
+  }
+
+  public set phone(phone: string | undefined | null) {
+    this.props.phone = phone;
   }
 
   public get type(): UserTypeEnum {
     return this.props.type;
   }
 
+  public set type(type: UserTypeEnum) {
+    this.props.type = type;
+  }
+
   public get name(): string {
     return this.props.name;
   }
 
+  public set name(name: string) {
+    this.props.name = name;
+  }
+
   public get notification(): boolean {
     return this.props.notification;
+  }
+
+  public set notification(notification: boolean) {
+    this.props.notification = notification;
   }
 
   public get favorites(): Property[] {

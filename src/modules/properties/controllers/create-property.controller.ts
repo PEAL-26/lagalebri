@@ -44,7 +44,6 @@ export class CreatePropertyController {
 
       return property;
     } catch (error) {
-      console.log(error);
       VerifyError(error);
     }
   }

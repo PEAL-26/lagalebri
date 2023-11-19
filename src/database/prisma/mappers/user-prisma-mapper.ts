@@ -19,7 +19,7 @@ export class UserPrismaMapper {
       {
         email: data.email,
         phone: data.phone,
-        name: data.name,
+        name: data.profile?.name,
         type: data.type,
         createdAt: data.createAt,
         updatedAt: data.updateAt,
@@ -29,6 +29,10 @@ export class UserPrismaMapper {
   }
 
   static toController(data: any) {
-    return camelToSnake(data) as any;
+    return camelToSnake({
+      ...data,
+      name: data.profile?.name || '',
+      profile: undefined,
+    }) as any;
   }
 }

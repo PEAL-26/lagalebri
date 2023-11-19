@@ -16,31 +16,42 @@ export class UserQueriesRepository implements UserRepositoryQueryAbstraction {
   constructor(private prisma: PrismaService) {}
 
   async getById(id: string): Promise<User | null> {
-    const property = await this.prisma.user.findUnique({
+    if (!id) return null;
+
+    const user = await this.prisma.user.findUnique({
       where: { id },
+      include: {
+        profile: true,
+      },
     });
 
-    return property ? UserPrismaMapper.toEntity(property) : null;
+    return user ? UserPrismaMapper.toEntity(user) : null;
   }
 
   async getByEmail(email: string): Promise<User | null> {
     if (!email) return null;
 
-    const property = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { email },
+      include: {
+        profile: true,
+      },
     });
 
-    return property ? UserPrismaMapper.toEntity(property) : null;
+    return user ? UserPrismaMapper.toEntity(user) : null;
   }
 
   async getByPhone(phone: string): Promise<User | null> {
     if (!phone) return null;
 
-    const property = await this.prisma.user.findUnique({
+    const user = await this.prisma.user.findUnique({
       where: { phone },
+      include: {
+        profile: true,
+      },
     });
 
-    return property ? UserPrismaMapper.toEntity(property) : null;
+    return user ? UserPrismaMapper.toEntity(user) : null;
   }
 
   whereList(query: string): any {

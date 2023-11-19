@@ -13,6 +13,7 @@ import {
 } from './interfaces/user-interface';
 import { ExistError, NotFoundError } from '@/helpers/errors';
 import { QueryProps } from '@/shared/query';
+import { isUndefined } from '@/helpers/varify-value';
 
 @Injectable()
 export class UserCRUDUseCases {
@@ -42,17 +43,28 @@ export class UserCRUDUseCases {
   //#endregion
 
   //#region Update
-  async update(request: UserUpdateRequest, id: string) {
-    const user = await this.validateOnUpdate(id, new User(request, id));
+  async update(request: UserUpdateRequest) {
+    const user = await this.validateOnUpdate(
+      request.id,
+      new User(request, request.id),
+    );
 
-    const userUpdated = await this.commandRepository.update(id, user);
+    user.name = request.name;
+    if (!isUndefined(request.email)) user.email = request.email;
+    if (!isUndefined(request.phone)) user.phone = request.phone;
+    if (!isUndefined(request.type)) user.type = request.type;
+    if (!isUndefined(request.notification))
+      user.notification = request.notification;
+
+    if (!user.isValid) throw new NotificationError(user.notifications);
+
+    user.update();
+    const userUpdated = await this.commandRepository.update(request.id, user);
 
     return { user: userUpdated };
   }
 
   private async validateOnUpdate(id: string, user: User) {
-    if (!user.isValid) throw new NotificationError(user.notifications);
-
     const userExists = await this.queryRepository.getById(id);
     if (!userExists) throw new NotFoundError('User');
 
@@ -66,9 +78,7 @@ export class UserCRUDUseCases {
     if (userPhoneExists && userPhoneExists.id !== id)
       throw new ExistError('Phone');
 
-    user.update();
-
-    return user;
+    return userExists;
   }
   //#endregion
 
