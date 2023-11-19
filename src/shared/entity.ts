@@ -34,4 +34,8 @@ export abstract class Entity extends Notification {
   public get updatedAt() {
     return this._dateProps.updatedAt;
   }
+
+  public update() {
+    this._dateProps.updatedAt = new Date();
+  }
 }

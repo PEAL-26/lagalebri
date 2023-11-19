@@ -23,7 +23,78 @@ export class UserQueriesRepository implements UserRepositoryQueryAbstraction {
     return property ? UserPrismaMapper.toEntity(property) : null;
   }
 
-  list(query?: QueryProps): Promise<PaginationDataOutput<User>> {
-    throw new Error('Method not implemented.');
+  async getByEmail(email: string): Promise<User | null> {
+    if (!email) return null;
+
+    const property = await this.prisma.user.findUnique({
+      where: { email },
+    });
+
+    return property ? UserPrismaMapper.toEntity(property) : null;
+  }
+
+  async getByPhone(phone: string): Promise<User | null> {
+    if (!phone) return null;
+
+    const property = await this.prisma.user.findUnique({
+      where: { phone },
+    });
+
+    return property ? UserPrismaMapper.toEntity(property) : null;
+  }
+
+  whereList(query: string): any {
+    return {
+      OR: [
+        {
+          email: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          phone: {
+            contains: query,
+            mode: 'insensitive',
+          },
+        },
+        {
+          profile: {
+            name: {
+              contains: query,
+              mode: 'insensitive',
+            },
+          },
+        },
+      ],
+    };
+  }
+
+  async list(query?: QueryProps): Promise<PaginationDataOutput<User>> {
+    const { query: q = '', page, size } = query ?? {};
+    const { limit, offset } = setPagination({ page, size });
+
+    const where = this.whereList(q);
+    const [total, users] = await Promise.all([
+      this.prisma.user.count({
+        where: where,
+      }),
+      await this.prisma.user.findMany({
+        select: {
+          id: true,
+          profile: { select: { name: true } },
+          email: true,
+          phone: true,
+          type: true,
+        },
+        where: where,
+        skip: offset,
+        take: limit,
+      }),
+    ]);
+
+    const rows = users.map((user) => UserPrismaMapper.toController(user));
+
+    return paginationData({ rows, total, limit, page });
   }
 }

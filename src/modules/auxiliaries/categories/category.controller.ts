@@ -8,18 +8,19 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { CategoryService } from './category.service';
+import { VerifyError } from '@/helpers/errors';
+import { CategoryUseCases } from '@/domain/use-cases/categories/category-use-cases';
+
 import {
   UpdateCategoryDto,
   CreateCategoryDto,
   ListCategoryQuery,
 } from './dtos';
-import { VerifyError } from '@/helpers/errors';
 import { CategoryViewModel } from './category-view-model';
 
 @Controller('categories')
 export class CategoryController {
-  constructor(private categoryService: CategoryService) {}
+  constructor(private categoryService: CategoryUseCases) {}
 
   @Get()
   async list(@Query() query: ListCategoryQuery) {

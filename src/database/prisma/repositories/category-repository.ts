@@ -3,9 +3,9 @@ import { Prisma } from '@prisma/client';
 
 import { paginationData, setPagination } from '@/helpers/pagination/pagination';
 
-import { ListQuery } from './types';
 import { PrismaService } from '../prisma-service';
 import { CategoryPrismaMapper } from '../mappers/category-prisma-mapper';
+import { QueryProps } from '@/shared/query';
 
 @Injectable()
 export class CategoryRepository {
@@ -23,15 +23,15 @@ export class CategoryRepository {
     return this.prisma.category.delete({ where: { id } });
   }
 
-  async list(props?: ListQuery) {
-    const { query = '', page, size } = props ?? {};
+  async list(query?: QueryProps) {
+    const { query: q = '', page, size } = query ?? {};
     const { limit, offset } = setPagination({ page, size });
 
     const [total, categories] = await Promise.all([
       this.prisma.category.count({
         where: {
           name: {
-            contains: query,
+            contains: q,
             mode: 'insensitive',
           },
         },
@@ -40,7 +40,7 @@ export class CategoryRepository {
         select: { id: true, name: true },
         where: {
           name: {
-            contains: query,
+            contains: q,
             mode: 'insensitive',
           },
         },

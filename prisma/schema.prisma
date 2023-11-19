@@ -146,10 +146,16 @@ model Interaction {
   @@map("interactions")
 }
 
+enum UserType {
+  ADMIN
+  NORMAL
+}
+
 model User {
   id              String          @id @unique @db.Uuid
   email           String?         @unique
   phone           String?         @unique @db.VarChar(9)
+  type            UserType        @default(NORMAL)
   createAt        DateTime?       @default(now()) @map("created_at")
   updateAt        DateTime?       @default(now()) @updatedAt @map("updated_at")
   profile         Profile?

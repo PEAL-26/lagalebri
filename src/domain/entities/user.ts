@@ -6,11 +6,17 @@ import { Rating } from './rating';
 import { Contact } from './contact';
 import { Property } from './property';
 
+export enum UserTypeEnum {
+  ADMIN = 'ADMIN',
+  NORMAL = 'NORMAL',
+}
+
 interface UserProps extends Partial<EntityDateProps> {
   email?: string;
   phone?: string;
   name: string;
   notification: boolean;
+  type: UserTypeEnum;
   favorites: Property[];
   ratings: Rating[];
   views: View[];
@@ -18,6 +24,7 @@ interface UserProps extends Partial<EntityDateProps> {
 }
 
 interface UserReplaceProps {
+  type?: UserTypeEnum;
   notification?: boolean;
   favorites?: Property[];
   ratings?: Rating[];
@@ -32,6 +39,7 @@ export class User extends Entity {
     super(id, props);
 
     this.props = {
+      type: props?.type || UserTypeEnum.NORMAL,
       notification: props?.notification || true,
       favorites: props?.favorites || [],
       ratings: props?.ratings || [],
@@ -63,6 +71,10 @@ export class User extends Entity {
 
   public get phone(): string | undefined {
     return this.props.phone;
+  }
+
+  public get type(): UserTypeEnum {
+    return this.props.type;
   }
 
   public get name(): string {

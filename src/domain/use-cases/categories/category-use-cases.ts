@@ -1,14 +1,15 @@
-import { CategoryRepository } from '@/database/prisma/repositories/category-repository';
 import { Injectable } from '@nestjs/common';
-import { Category } from '@/domain/entities/category';
 
+import { QueryProps } from '@/shared/query';
+import { Category } from '@/domain/entities/category';
 import { ExistError, NotFoundError } from '@/helpers/errors';
-import { NotificationError } from '@/helpers/notification-error';
-import { CreateRequest, UpdateRequest } from './types';
-import { ListQuery } from '@/database/prisma/repositories/types';
+import { NotificationError } from '@/helpers/errors';
+import { CategoryRepository } from '@/database/prisma/repositories';
+
+import { CreateRequest, UpdateRequest } from './interfaces/category-interface';
 
 @Injectable()
-export class CategoryService {
+export class CategoryUseCases {
   constructor(private categoryRepository: CategoryRepository) {}
 
   //#region Create
@@ -79,7 +80,7 @@ export class CategoryService {
   //#endregion
 
   //#region Queries
-  async list(query?: ListQuery) {
+  async list(query?: QueryProps) {
     const categories = await this.categoryRepository.list(query);
 
     return { categories };

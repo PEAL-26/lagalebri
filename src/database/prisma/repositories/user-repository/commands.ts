@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+
+import { User } from '@/domain/entities/user';
+import { UserRepositoryCommandAbstraction } from '@/domain/use-cases/abstractions';
 
 import { PrismaService } from '../../prisma-service';
-import { UserRepositoryCommandAbstraction } from '@/domain/use-cases/abstractions';
-import { User } from '@/domain/entities/user';
+import { UserPrismaMapper } from '../../mappers/user-prisma-mapper';
 
 @Injectable()
 export class UserCommandsRepository
@@ -11,16 +12,62 @@ export class UserCommandsRepository
 {
   constructor(private prisma: PrismaService) {}
 
-  create(entity: User): Promise<User> {
-    throw new Error('Method not implemented.');
-    //   return this.prisma.user.create({ data });
+  async create(entity: User): Promise<User> {
+    const data = UserPrismaMapper.toPrisma(entity);
+    const result = await this.prisma.user.create({
+      data: {
+        ...data,
+        profile: {
+          create: {
+            name: entity.name,
+            notification: entity.notification,
+            createAt: entity.createdAt,
+            updateAt: entity.updatedAt,
+          },
+        },
+      },
+    });
+
+    return UserPrismaMapper.toEntity(result);
   }
-  update(id: string, entity: User): Promise<User> {
-    throw new Error('Method not implemented.');
-    //   return this.prisma.user.update({ data, where: { id } });
+
+  async update(id: string, entity: User): Promise<User> {
+    const data = UserPrismaMapper.toPrisma(entity);
+    const result = await this.prisma.user.update({
+      data: {
+        ...data,
+        createAt: undefined,
+        profile: {
+          update: {
+            name: entity.name,
+            notification: entity.notification,
+            updateAt: entity.updatedAt,
+          },
+        },
+      },
+      where: { id },
+    });
+
+    return UserPrismaMapper.toEntity(result);
   }
-  delete(id: string): Promise<void> {
-    throw new Error('Method not implemented.');
-    //   return this.prisma.user.delete({ where: { id } });
+
+  async delete(id: string): Promise<void> {
+    await this.prisma.user.delete({ where: { id } });
+  }
+  async receiveRefuseNotifications(
+    id: string,
+    notification: boolean,
+  ): Promise<void> {
+    await this.prisma.user.update({
+      data: {
+        profile: {
+          update: {
+            notification,
+            updateAt: new Date(),
+          },
+        },
+      },
+      where: { id },
+    });
   }
 }

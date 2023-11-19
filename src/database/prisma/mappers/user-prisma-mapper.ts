@@ -1,6 +1,6 @@
 import { User as UserPrisma } from '@prisma/client';
 import { User as UserEntity } from '@/domain/entities/user';
-import { toSnakeCase } from '@/helpers/converter-property-case';
+import { camelToSnake } from 'case-naming-converter';
 
 export class UserPrismaMapper {
   static toPrisma(user: UserEntity): UserPrisma {
@@ -8,6 +8,7 @@ export class UserPrismaMapper {
       id: user.id,
       email: user.email,
       phone: user.phone,
+      type: user.type,
       createAt: user.createdAt,
       updateAt: user.updatedAt,
     };
@@ -19,6 +20,7 @@ export class UserPrismaMapper {
         email: data.email,
         phone: data.phone,
         name: data.name,
+        type: data.type,
         createdAt: data.createAt,
         updatedAt: data.updateAt,
       },
@@ -26,7 +28,7 @@ export class UserPrismaMapper {
     );
   }
 
-  static toController(data: UserPrisma) {
-    return toSnakeCase(data);
+  static toController(data: any) {
+    return camelToSnake(data) as any;
   }
 }

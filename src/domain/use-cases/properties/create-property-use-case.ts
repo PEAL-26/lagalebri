@@ -3,8 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { Property } from '@/domain/entities/property';
 
 import { createSlug } from '@/helpers/slug';
-import { NotificationError } from '@/helpers/notification-error';
-
+import { NotificationError } from '@/helpers/errors';
 import { CreatePropertyUseCaseInput } from './interfaces/create-property-types';
 import {
   PropertyRepositoryCommandAbstraction,
