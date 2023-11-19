@@ -1,16 +1,23 @@
 import { Replace } from '@/helpers/replace';
 import { Entity, EntityDateProps } from '@/shared/entity';
 
+import { User } from './user';
 import { View } from './view';
 import { Image } from './image';
 import { Rating } from './rating';
 import { Contact } from './contact';
 import { Category } from './category';
-import { Favorite } from './favorite';
 import { Compartment } from './compartment';
 import { Interaction } from './interaction';
 
-interface PropertyProps extends Partial<EntityDateProps> {
+export enum PropertyStateEnum {
+  DRAFT = 'DRAFT',
+  PUBLISHED = 'PUBLISHED',
+  CANCELED = 'CANCELED',
+}
+
+export interface PropertyProps extends Partial<EntityDateProps> {
+  user: User;
   title: string;
   slug: string;
   description?: string | null;
@@ -21,25 +28,25 @@ interface PropertyProps extends Partial<EntityDateProps> {
   latitude?: number | null;
   longitude?: number | null;
   categories: Category[];
-  favorites: Favorite[];
   rating: Rating[];
   images: Image[];
   views: View[];
   compartments: Compartment[];
   interactions: Interaction[];
   contacts: Contact[];
+  state: PropertyStateEnum;
 }
 
 interface PropertyReplaceProps {
   slug?: string;
   categories?: Category[];
-  favorites?: Favorite[];
   rating?: Rating[];
   images?: Image[];
   views?: View[];
   compartments?: Compartment[];
   interactions?: Interaction[];
   contacts?: Contact[];
+  state?: PropertyStateEnum;
 }
 
 interface CategoryProps {
@@ -53,7 +60,6 @@ interface CompartmentProps {
 }
 
 interface ContactProps {
-  userId?: string;
   type: string;
   contact: string;
 }
@@ -68,37 +74,56 @@ export class Property extends Entity {
     super(id, props);
 
     this.props = {
-      slug: '',
-      categories: [],
-      favorites: [],
-      rating: [],
-      images: [],
-      views: [],
-      compartments: [],
-      interactions: [],
-      contacts: [],
+      slug: props?.slug || '',
+      categories: props?.categories || [],
+      rating: props?.rating || [],
+      images: props?.images || [],
+      views: props?.views || [],
+      compartments: props?.compartments || [],
+      interactions: props?.interactions || [],
+      contacts: props?.contacts || [],
+      state: props?.state || PropertyStateEnum.DRAFT,
       ...props,
     };
 
     this.validate();
   }
 
-  validate(): void {}
+  validate(): void {
+    if (!this.props.title?.trim())
+      this.addNotifications({
+        property: 'title',
+        message: 'Campo obrigatório',
+      });
 
-  toController() {
-    return {};
+    if (!this.props.title?.trim())
+      this.addNotifications({
+        property: 'title',
+        message: 'Campo obrigatório',
+      });
   }
 
-  toPrisma() {
-    return {};
+  public get user(): User {
+    return this.props.user;
   }
 
   public get title(): string {
-    return this.props.title?.trim();
+    return this.props.title.trim();
   }
 
   public get slug(): string {
     return this.props.slug?.trim();
+  }
+
+  public set slug(slug: string) {
+    if (!slug.trim()) {
+      this.addNotifications({
+        property: 'Slug',
+        message: 'Campo Obrigatório!',
+      });
+    } else {
+      this.props.slug = slug;
+    }
   }
 
   public get description(): string | null | undefined {
@@ -146,17 +171,6 @@ export class Property extends Entity {
     this.props.categories.push(category);
   }
 
-  public get favorites() {
-    return this.props.favorites || [];
-  }
-
-  public addFavorite() {
-    // const category = new Category(input);
-    // if (!category.isValid) this.addNotifications(category.notifications);
-    // if (!this.props?.categories) this.props.categories = [];
-    // this.props.categories.push(category);
-  }
-
   public get rating() {
     return this.props.rating || [];
   }
@@ -189,9 +203,13 @@ export class Property extends Entity {
   }
 
   public addContact(input: ContactProps) {
-    const contact = new Contact(input);
+    const contact = new Contact({ user: this.user, ...input });
     if (!contact.isValid) this.addNotifications(contact.notifications);
     if (!this.props?.contacts) this.props.contacts = [];
     this.props.contacts.push(contact);
+  }
+
+  public get state(): PropertyStateEnum {
+    return this.props.state;
   }
 }

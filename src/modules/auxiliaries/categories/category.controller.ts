@@ -9,13 +9,13 @@ import {
   Query,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { toSnakeCase } from '@/helpers/converter-property-case';
 import {
   UpdateCategoryDto,
   CreateCategoryDto,
   ListCategoryQuery,
 } from './dtos';
 import { VerifyError } from '@/helpers/errors';
+import { CategoryViewModel } from './category-view-model';
 
 @Controller('categories')
 export class CategoryController {
@@ -42,7 +42,7 @@ export class CategoryController {
   async getById(@Param('id') id: string) {
     try {
       const { category } = await this.categoryService.getById(id);
-      return category;
+      return CategoryViewModel.toHTTP(category);
     } catch (error) {
       VerifyError(error);
     }
@@ -53,7 +53,7 @@ export class CategoryController {
     try {
       const { category } = await this.categoryService.getByName(name);
 
-      return category;
+      return CategoryViewModel.toHTTP(category);
     } catch (error) {
       VerifyError(error);
     }
@@ -67,7 +67,7 @@ export class CategoryController {
         description: input.description,
       });
 
-      return toSnakeCase(category);
+      return CategoryViewModel.toHTTP(category);
     } catch (error) {
       VerifyError(error);
     }
@@ -84,7 +84,7 @@ export class CategoryController {
         id,
       );
 
-      return toSnakeCase(category);
+      return CategoryViewModel.toHTTP(category);
     } catch (error) {
       VerifyError(error);
     }

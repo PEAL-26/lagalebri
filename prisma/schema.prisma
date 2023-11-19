@@ -16,8 +16,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum PropertyState {
+  DRAFT
+  PUBLISHED
+  CANCELED
+}
+
 model Property {
   id           String        @id @unique @db.Uuid
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String        @map("user_id") @db.Uuid
   title        String        @db.VarChar()
   slug         String        @unique @db.VarChar()
   description  String?       @default("") @db.Text
@@ -27,6 +35,7 @@ model Property {
   address      String?
   latitude     Decimal?
   longitude    Decimal?
+  state        PropertyState @default(DRAFT)
   createAt     DateTime?     @default(now()) @map("created_at")
   updateAt     DateTime?     @default(now()) @updatedAt @map("updated_at")
   categories   Category[]    @relation("properties_categories")
@@ -38,7 +47,7 @@ model Property {
   interactions Interaction[]
   contacts     Contact[]     @relation("properties_contacts")
 
-  @@index([title])
+  @@index([title, slug])
   @@map("properties")
 }
 
@@ -134,7 +143,7 @@ model Interaction {
   updateAt   DateTime?        @default(now()) @updatedAt @map("updated_at")
 
   @@index([userId, propertyId])
-  @@map("interations")
+  @@map("interactions")
 }
 
 model User {
@@ -147,9 +156,10 @@ model User {
   favorites       Favorite[]
   ratings         Rating[]
   views           View[]
-  interatios      Interaction[]
+  interactions    Interaction[]
   searchHistories SearchHistory[]
   contacts        Contact[]
+  properties      Property[]
 
   @@index([email, phone])
   @@map("users")

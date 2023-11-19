@@ -1,6 +1,11 @@
 import { Entity, EntityDateProps } from '@/shared/entity';
 
-interface ImageProps extends Partial<EntityDateProps> {}
+import { User } from './user';
+
+interface ImageProps extends Partial<EntityDateProps> {
+  user: User;
+  url: string;
+}
 
 export class Image extends Entity {
   private props: ImageProps;
@@ -15,9 +20,25 @@ export class Image extends Entity {
     this.validate();
   }
 
-  validate(): void {}
+  validate(): void {
+    if (this.props.url.trim() === '')
+      this.addNotifications({
+        property: 'Image.Url',
+        message: 'Campo Obrigatório!',
+      });
+  }
 
-  toController() {
-    return {};
+  public get url(): string {
+    return this.props.url.trim();
+  }
+
+  public set url(url: string) {
+    if (url.trim() === '')
+      this.addNotifications({
+        property: 'Image.Url',
+        message: 'Campo Obrigatório!',
+      });
+
+    if (this.isValid) this.props.url = url;
   }
 }

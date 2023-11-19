@@ -1,21 +1,28 @@
-version: "3"
+version: '3'
 
 services:
-  # api:
-    # container_name: lagalebri-api
-    # build: .
-    # ports:
-    #   - "3333:3000"
-    # volumes:
-    #   - .:/home/node/api
+  api:
+    container_name: lagalebri-api
+    build: .
+    ports:
+      - '3333:3000'
+    volumes:
+      - .:/usr/lagalebri-api
+    networks:
+      - lagalebri-network
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
   postgres:
     container_name: lagalebri-postgres
-    image: postgres:12.16-bullseye 
+    image: postgres:12.16-bullseye
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=lagalebri_bd
       - POSTGRES_PASSWORD=8s8rB8758TYxCqEBQGcTR2V7Kdw78SD7
     ports:
-      - "6500:5432"
+      - '6500:5432'
     volumes:
       - ./postgres_data:/var/lib/postgresql
+networks:
+  lagalebri-network:
+    external: true

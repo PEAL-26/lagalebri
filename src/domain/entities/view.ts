@@ -16,8 +16,4 @@ export class View extends Entity {
   }
 
   validate(): void {}
-
-  toController() {
-    return {};
-  }
 }

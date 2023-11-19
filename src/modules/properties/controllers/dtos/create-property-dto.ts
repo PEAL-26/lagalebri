@@ -10,6 +10,7 @@ class Compartment {
 }
 
 export class PropertyCreateBody {
+  user_id: string;
   title: string;
   description?: string;
   price: number;

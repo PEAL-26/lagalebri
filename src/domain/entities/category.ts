@@ -35,14 +35,4 @@ export class Category extends Entity {
       ? this.props.description.trim()
       : this.props.description;
   }
-
-  toController() {
-    return {
-      id: this.id,
-      name: this.name,
-      description: this.description,
-      created_at: this.createdAt,
-      updated_at: this.updatedAt,
-    };
-  }
 }

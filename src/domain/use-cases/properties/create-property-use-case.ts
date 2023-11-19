@@ -1,28 +1,29 @@
 import { Injectable } from '@nestjs/common';
 
-import {
-  PropertyCommandsRepository,
-  PropertyQueriesRepository,
-} from '@/database/prisma/repositories/property-repository';
 import { Property } from '@/domain/entities/property';
 
 import { createSlug } from '@/helpers/slug';
-import { ExistError } from '@/helpers/errors';
-import { toSnakeCase } from '@/helpers/converter-property-case';
 import { NotificationError } from '@/helpers/notification-error';
 
 import { CreatePropertyUseCaseInput } from './interfaces/create-property-types';
+import {
+  PropertyRepositoryCommandAbstraction,
+  PropertyRepositoryQueryAbstraction,
+  UserRepositoryQueryAbstraction,
+} from '../abstractions';
 
 @Injectable()
 export class CreatePropertyUseCase {
   constructor(
-    private propertyCommandsRepository: PropertyCommandsRepository,
-    private propertyQueriesRepository: PropertyQueriesRepository,
+    private propertyCommandsRepository: PropertyRepositoryCommandAbstraction,
+    private propertyQueriesRepository: PropertyRepositoryQueryAbstraction,
+    private userQueriesRepository: UserRepositoryQueryAbstraction,
   ) {}
 
   async execute(input: CreatePropertyUseCaseInput) {
     const {
       title,
+      userId,
       description,
       price,
       imageUrl,
@@ -35,7 +36,16 @@ export class CreatePropertyUseCase {
       contacts,
     } = input;
 
+    const user = await this.userQueriesRepository.getById(userId);
+
+    if (!user)
+      throw new NotificationError({
+        property: 'user_id',
+        message: 'Usuário não existe.',
+      });
+
     const property = new Property({
+      user,
       title,
       price,
       description,
@@ -49,38 +59,16 @@ export class CreatePropertyUseCase {
     categories.forEach((name) => property.addCategory({ name }));
     compartments.forEach((compartment) => property.addCompartment(compartment));
     contacts.forEach((contact) => property.addContact(contact));
+    property.slug = await this.verifySlug(title);
 
-    const slug = await this.verifySlug(title);
-
-    this.validationOnCreate(property);
-
-    const response = await this.propertyCommandsRepository.create({
-      id: property.id,
-      slug,
-      title: property.title,
-      description: property.description,
-      price: property.price,
-      imageUrl: property.imageUrl,
-      area: property.area,
-      address: property.address,
-      latitude: property.latitude,
-      longitude: property.longitude,
-    });
-
-    return { property: toSnakeCase(response) };
-  }
-
-  private async validationOnCreate(property: Property) {
     if (!property.isValid) throw new NotificationError(property.notifications);
 
-    // const propertyExists = await this.propertyQueriesRepository.getByTitle(
-    //   property.title,
-    // );
+    console.log(property.user);
+    console.log(property.categories);
 
-    // if (propertyExists)
-    //   throw new NotificationError({ message: 'Titulo já existe', property: 'title' });
+    await this.propertyCommandsRepository.create(property);
 
-    return property;
+    return { property };
   }
 
   private async verifySlug(title: string) {

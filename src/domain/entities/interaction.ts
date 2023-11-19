@@ -16,8 +16,4 @@ export class Interaction extends Entity {
   }
 
   validate(): void {}
-
-  toController() {
-    return {};
-  }
 }

@@ -11,6 +11,7 @@ interface Compartment {
 
 export interface CreatePropertyUseCaseInput {
   title: string;
+  userId: string;
   description?: string;
   price: number;
   imageUrl?: string;

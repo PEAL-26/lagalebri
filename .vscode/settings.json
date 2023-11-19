@@ -4,5 +4,8 @@
         "endregion",
         "lagalebri",
         "unidecode"
+    ],
+    "cSpell.enableFiletypes": [
+        "prisma"
     ]
 }

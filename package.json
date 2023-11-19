@@ -11,7 +11,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/src/main",
+    "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -23,13 +23,14 @@
     "prisma:studio": "npx  prisma studio",
     "prisma:migrate": "npx prisma migrate dev",
     "docker:compose": "sudo docker compose up --build -d",
-    "docker:build": "sudo docker build -t peal26/node:20.9.0-slim --network=host .",
-    "docker:container": "sudo docker container run --name lagalebri-backend -d -t peal26/node:20.9.0-slim",
+    "docker:build": "sudo docker build -t peal26/lagalebri-api .",
+    "docker:run": "sudo  docker run -p 3333:3333 -d peal26/lagalebri-api",
+    "docker:container": "sudo docker container run --name lagalebri-api -d -t peal26/lagalebri-api",
     "docker:ls": "sudo docker ps -a",
     "docker:lsi": "sudo docker image ls",
-    "docker:entry": "sudo docker exec -it lagalebri-backend /bin/bash",
-    "docker:stop": "sudo docker stop lagalebri-backend",
-    "docker:remove": "npm run docker:stop && sudo docker rm lagalebri-backend"
+    "docker:entry": "sudo docker exec -it lagalebri-api /bin/bash",
+    "docker:stop": "sudo docker stop lagalebri-api",
+    "docker:remove": "npm run docker:stop && sudo docker rm lagalebri-api"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
@@ -37,6 +38,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.5.2",
     "case-anything": "^2.1.13",
+    "case-naming-converter": "^1.0.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "unidecode": "^0.1.8"

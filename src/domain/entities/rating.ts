@@ -16,8 +16,4 @@ export class Rating extends Entity {
   }
 
   validate(): void {}
-
-  toController() {
-    return {};
-  }
 }

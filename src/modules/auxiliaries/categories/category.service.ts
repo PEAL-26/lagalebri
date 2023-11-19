@@ -1,6 +1,6 @@
 import { CategoryRepository } from '@/database/prisma/repositories/category-repository';
 import { Injectable } from '@nestjs/common';
-import { Category } from '../../../domain/entities/category';
+import { Category } from '@/domain/entities/category';
 
 import { ExistError, NotFoundError } from '@/helpers/errors';
 import { NotificationError } from '@/helpers/notification-error';
@@ -15,13 +15,13 @@ export class CategoryService {
   async create(request: CreateRequest) {
     const category = await this.validateOnCreate(new Category(request));
 
-    const response = await this.categoryRepository.create({
+    await this.categoryRepository.create({
       id: category.id,
-      name: category.name.trim(),
-      description: category.description.trim(),
+      name: category.name,
+      description: category.description,
     });
 
-    return { category: response };
+    return { category };
   }
 
   private async validateOnCreate(category: Category) {
@@ -41,7 +41,7 @@ export class CategoryService {
   async update(request: UpdateRequest, id: string) {
     const category = await this.validateOnUpdate(id, new Category(request, id));
 
-    const response = await this.categoryRepository.update(
+    await this.categoryRepository.update(
       {
         name: category.name,
         description: category.description,
@@ -50,7 +50,7 @@ export class CategoryService {
       id,
     );
 
-    return { category: response };
+    return { category };
   }
 
   private async validateOnUpdate(id: string, category: Category) {
@@ -88,13 +88,13 @@ export class CategoryService {
   async getById(id: string) {
     const category = await this.categoryRepository.getById(id);
     if (!category) throw new NotFoundError('Categoria');
-    return { category: category.toController() };
+    return { category };
   }
 
   async getByName(name: string) {
     const category = await this.categoryRepository.getByName(name);
     if (!category) throw new NotFoundError('Categoria');
-    return { category: category.toController() };
+    return { category };
   }
   //#endregion
 }

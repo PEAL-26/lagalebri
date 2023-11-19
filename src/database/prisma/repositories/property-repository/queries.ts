@@ -3,17 +3,24 @@ import { paginationData, setPagination } from '@/helpers/pagination';
 import { PrismaService } from '@/database/prisma/prisma-service';
 import { PropertyPrismaMapper } from '@/database/prisma/mappers';
 
-import { ListQuery, PropertyListData } from './types';
+// import { ListQuery, PropertyListData } from './types';
+import {
+  PropertyRepositoryQueryAbstraction,
+  ListQuery,
+} from '@/domain/use-cases/abstractions';
+import { Property } from '@/domain/entities/property';
 
 @Injectable()
-export class PropertyQueriesRepository {
+export class PropertyQueriesRepository
+  implements PropertyRepositoryQueryAbstraction
+{
   constructor(private prisma: PrismaService) {}
 
   async list(props?: ListQuery) {
     const { query = '', page, size } = props ?? {};
     const { limit, offset } = setPagination({ page, size });
 
-    const properties = await this.prisma.$queryRaw<PropertyListData[]>`
+    const properties = await this.prisma.$queryRaw<any[]>`
       SELECT
         properties.id,
         properties.title,
@@ -47,23 +54,30 @@ export class PropertyQueriesRepository {
       LIMIT ${limit}
       OFFSET ${offset}`;
 
-    /*
-          WHERE
-        properties.title LIKE '%${query}%'
-    */
-    const rows = properties.map(PropertyPrismaMapper.toListPrismaController);
-    return paginationData({ rows, total: properties.length, limit, page });
+    // WHERE
+    //   properties.title ILIKE '%casa%'
+
+    // const rows = properties.map(PropertyPrismaMapper.toListPrismaController);
+    return paginationData({
+      rows: properties,
+      total: properties.length,
+      limit,
+      page,
+    });
   }
 
-  async getById(id: string) {
+  async getById(id: string): Promise<Property | null> {
     const property = await this.prisma.property.findUnique({
       where: { id },
+      include: {
+        user: true,
+      },
     });
 
     return property ? PropertyPrismaMapper.toEntity(property) : null;
   }
 
-  async getByTitle(title: string) {
+  async getByTitle(title: string): Promise<Property | null> {
     const property = await this.prisma.property.findFirst({
       where: {
         title: {
@@ -76,7 +90,7 @@ export class PropertyQueriesRepository {
     return property ? PropertyPrismaMapper.toEntity(property) : null;
   }
 
-  async getBySlug(slug: string) {
+  async getBySlug(slug: string): Promise<Property | null> {
     const property = await this.prisma.property.findUnique({
       where: {
         slug,

@@ -37,7 +37,7 @@ export class CategoryRepository {
         },
       }),
       await this.prisma.category.findMany({
-        select: { id: true, name: true, description: true },
+        select: { id: true, name: true },
         where: {
           name: {
             contains: query,

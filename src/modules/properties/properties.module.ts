@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from '@/database/database.module';
 
-import { CreatePropertyUseCase, ListAllPropertyUseCase } from './use-cases';
+import {
+  CreatePropertyUseCase,
+  ListAllPropertyUseCase,
+} from '@/domain/use-cases/properties';
 import {
   CreatePropertyController,
   ListPropertyController,

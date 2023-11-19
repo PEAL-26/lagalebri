@@ -1,15 +1,15 @@
 import { VerifyError } from '@/helpers/errors';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 
 import { ListPropertyDto } from './dtos/list-property-dto';
-import { ListAllPropertyUseCase } from '../use-cases';
+import { ListAllPropertyUseCase } from '../../../domain/use-cases/properties';
 
 @Controller('properties')
 export class ListPropertyController {
   constructor(private listAll: ListAllPropertyUseCase) {}
 
   @Get()
-  async handle(@Param() params: ListPropertyDto) {
+  async handle(@Query() params: ListPropertyDto) {
     try {
       const { category, q: query, page, size } = params;
 
@@ -22,7 +22,7 @@ export class ListPropertyController {
 
       return response;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       VerifyError(error);
     }
   }
