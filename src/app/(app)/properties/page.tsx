@@ -2,12 +2,16 @@ import { Metadata } from 'next';
 
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Categories, Compartments, List } from '@/components/tabs/properties';
+import { getAllPropertiesService } from '@/services/properties-service';
 
 export const metadata: Metadata = {
   title: 'Propriedades',
 };
 
-export default function PropertiesPage() {
+export default async function PropertiesPage() {
+  const response = await getAllPropertiesService();
+  console.log(response);
+
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
       <Tabs defaultValue="list" className="space-y-4">

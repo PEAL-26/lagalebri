@@ -15,8 +15,27 @@ export function List() {
     { id: '2', name: 'Teste 2' },
     { id: '3', name: 'Teste 3' },
   ];
-  const columns: ColumnDef<z.infer<typeof dataSchema>>[] = [];
 
+  const columns: ColumnDef<z.infer<typeof dataSchema>>[] = [
+    {
+      id: 'select',
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: 'id',
+      enableSorting: false,
+      enableHiding: false,
+    },
+    {
+      accessorKey: 'name',
+    },
+    {
+      id: 'actions',
+    },
+  ];
+
+  console.log({ columns, data });
   return (
     <TabsContent value="list" className="space-y-4">
       <h1>Propriedades</h1>

@@ -2,6 +2,8 @@ import '@/styles/globals.css';
 import { Inter as FontSans } from 'next/font/google';
 
 import { cn } from '@/lib/utils';
+import { Toaster } from '@/components/ui/toaster';
+import { AuthProvider } from '@/contexts/auth-context';
 import { ThemeProvider } from '@/providers/theme-provider';
 
 // import { inter as FontSans } from './fonts';
@@ -30,7 +32,8 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>{children}</AuthProvider>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>
