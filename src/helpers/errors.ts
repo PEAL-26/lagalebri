@@ -85,17 +85,20 @@ export class InternalServerError extends HttpException {
 export function VerifyError(error: any) {
   // Verificar erros personalizados
   if (error?.errors) {
-    throw new HttpException(error.errors, HttpStatus.BAD_REQUEST);
+    throw new HttpException({ errors: error.errors }, HttpStatus.BAD_REQUEST);
   }
 
   // Verificar erros do Firebase
   if (error?.errorInfo) {
-    throw new HttpException(error.errorInfo, HttpStatus.BAD_REQUEST);
+    throw new HttpException(
+      { errors: error.errorInfo },
+      HttpStatus.BAD_REQUEST,
+    );
   }
 
   // Verificar erros de autenticação
   if (error instanceof UnauthorizedException) {
-    throw error;
+    throw new HttpException({ errors: error }, HttpStatus.UNAUTHORIZED);
   }
 
   throw new InternalServerError();

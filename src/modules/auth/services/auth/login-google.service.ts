@@ -14,21 +14,18 @@ export class LoginGoogleService {
 
   async execute(token: string) {
     const decoded = await this.admin.verifyIdToken(token);
-    const { user } = await this.usersService.getByPhone(decoded.email);
+    const { user } = await this.usersService.getByEmail(decoded.email);
 
     if (!user) {
       throw new UnauthorizedException();
     }
 
     return {
-      user: {
+      access_token: await this.jwtService.signAsync({
+        sub: user.id,
         identifier: user.email || user.phone || '',
         name: user.name,
         avatar: user.avatar,
-        userType: user.type,
-      },
-      access_token: await this.jwtService.signAsync({
-        sub: user.id,
         userType: user.type,
       }),
     };

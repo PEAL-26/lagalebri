@@ -13,7 +13,7 @@ import {
 } from './interfaces/user-interface';
 import { ExistError, NotFoundError } from '@/helpers/errors';
 import { QueryProps } from '@/shared/query';
-import { isUndefined } from '@/helpers/varify-value';
+import { isUndefined } from '@/helpers/verify-value';
 
 @Injectable()
 export class UserCRUDUseCases {

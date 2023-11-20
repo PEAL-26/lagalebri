@@ -1,5 +1,5 @@
 import { VerifyError } from '@/helpers/errors';
-import { Controller, Post, Query } from '@nestjs/common';
+import { Controller, HttpCode, HttpStatus, Post, Query } from '@nestjs/common';
 
 import { Public } from '../constants';
 import { LoginGoogleService, LoginPhoneService } from '../services/auth';
@@ -13,9 +13,10 @@ export class LoginController {
 
   @Post('google')
   @Public()
+  @HttpCode(HttpStatus.OK)
   async google(@Query('token') token: string) {
     try {
-      return this.loginGoogleServe.execute(token);
+      return await this.loginGoogleServe.execute(token);
     } catch (error) {
       VerifyError(error);
     }
@@ -23,9 +24,10 @@ export class LoginController {
 
   @Post('phone')
   @Public()
+  @HttpCode(HttpStatus.OK)
   async phone(@Query('token') token: string) {
     try {
-      return this.loginPhoneService.execute(token);
+      return await this.loginPhoneService.execute(token);
     } catch (error) {
       VerifyError(error);
     }

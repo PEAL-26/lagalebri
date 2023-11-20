@@ -21,14 +21,11 @@ export class LoginPhoneService {
     }
 
     return {
-      user: {
+      access_token: await this.jwtService.signAsync({
+        sub: user.id,
         identifier: user.email || user.phone || '',
         name: user.name,
         avatar: user.avatar,
-        userType: user.type,
-      },
-      access_token: await this.jwtService.signAsync({
-        sub: user.id,
         userType: user.type,
       }),
     };

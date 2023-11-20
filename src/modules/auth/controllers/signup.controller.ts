@@ -1,5 +1,12 @@
 import { VerifyError } from '@/helpers/errors';
-import { Controller, Post, Body, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Query,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 
 import { Public } from '../constants';
 import { SignupPhoneBodyDto } from './dtos/signup-phone-dto';
@@ -14,9 +21,11 @@ export class SignupController {
 
   @Post('google')
   @Public()
+  @HttpCode(HttpStatus.OK)
   async google(@Query('token') token: string) {
     try {
       await this.signupGoogle.execute(token);
+      return { message: 'success' };
     } catch (error) {
       VerifyError(error);
     }
@@ -24,10 +33,12 @@ export class SignupController {
 
   @Post('phone')
   @Public()
+  @HttpCode(HttpStatus.OK)
   async phone(@Query('token') token: string, @Body() body: SignupPhoneBodyDto) {
     try {
       const { name } = body;
       await this.signupPhone.execute({ token, name });
+      return { message: 'success' };
     } catch (error) {
       VerifyError(error);
     }
