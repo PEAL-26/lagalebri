@@ -14,3 +14,17 @@ export async function loginGoogleService(token: string) {
     return result.access_token;
   });
 }
+
+export async function loginPhoneService(token: string) {
+  return fetch(`${appConfig.api}/login/phone?token=${token}`, {
+    method: 'POST',
+  }).then(async (res) => {
+    const result = await res.json();
+
+    if (res.status !== 200) {
+      throw new ErrorCustom(result.errors);
+    }
+
+    return result.access_token;
+  });
+}

@@ -14,18 +14,20 @@ import { Icons } from '@/components/icons';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { useAuthContext } from '@/contexts/auth-context';
+
+import { useLogin } from './use-login';
+import { LoginConfirmCode } from './login-confirm-code';
 
 export function Login() {
-    const { loginGoogle, isLoading, error, user } = useAuthContext();
-
-  const handleLoginGoogle = async () => {
-    await loginGoogle();
-  };
-
-  if (user) {
-    redirect('/dashboard', RedirectType.replace);
-  }
+  const {
+    phone,
+    isLoading,
+    setPhone,
+    handleLoginPhone,
+    handleLoginGoogle,
+    openConfirmCode,
+    setOpenConfirmCode,
+  } = useLogin();
 
   return (
     <>
@@ -33,21 +35,29 @@ export function Login() {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
-            Digite seu e-mail abaixo para entrar
+            Digite seu telefone abaixo para entrar
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="m@example.com" />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" />
+            <Label htmlFor="phone">Telefone</Label>
+            <Input
+              id="phone"
+              type="phone"
+              placeholder="900 000 000"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-2">
-          <Button className="w-full">Create account</Button>
+          <Button
+            id="sign-in-phone-button"
+            className="w-full"
+            onClick={handleLoginPhone}
+          >
+            Entrar
+          </Button>
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
@@ -68,8 +78,9 @@ export function Login() {
           </Button>
         </CardFooter>
       </Card>
+      <LoginConfirmCode open={openConfirmCode} onClose={setOpenConfirmCode} />
       {isLoading && (
-        <div className="fixed inset-0 z-50 flex justify-center items-center bg-black/50">
+        <div className="fixed inset-0 z-[60] flex justify-center items-center bg-black/50">
           <Icons.spinner className="h-20 w-20 animate-spin" />
         </div>
       )}

@@ -3,10 +3,13 @@
 import { auth } from '@/lib/firebase';
 import jwtDecode from 'jwt-decode';
 import { getCookie, removeCookie, setCookie } from '@/helpers/cookies';
-import { loginGoogleService } from '@/services/auth-service';
+import { loginGoogleService, loginPhoneService } from '@/services/auth-service';
 import {
+  ConfirmationResult,
   GoogleAuthProvider,
+  RecaptchaVerifier,
   browserLocalPersistence,
+  signInWithPhoneNumber,
   signInWithPopup,
 } from 'firebase/auth';
 import {
@@ -32,7 +35,7 @@ interface AuthContextProps {
   error: string | null;
   isLoading: boolean;
   loginGoogle(): Promise<void>;
-  loginPhone(phone: string): Promise<void>;
+  loginPhone(phone: string, appVerifier: RecaptchaVerifier): Promise<boolean>;
   confirmPhone(code: string): Promise<void>;
   signupGoogle(): Promise<void>;
   signupPhone(): Promise<void>;
@@ -47,6 +50,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<UserType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [confirmCode, setSetConfirmCode] = useState<ConfirmationResult | null>(
+    null
+  );
+
+  const setToken = (token: string) => {
+    const decoded: UserType = jwtDecode(token);
+    if (decoded.userType !== 'ADMIN') {
+      throw new Error('Não tem permissão para acessar essa página.');
+    }
+
+    setUser(decoded);
+
+    const cookieOptions = { expires: 7 /* 7 days */, path: '/' };
+    setCookie('token', token, cookieOptions);
+  };
 
   const loginGoogle = async () => {
     if (isLoading) return;
@@ -60,16 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await signInWithPopup(auth, provider);
       const idToken = await auth.currentUser?.getIdToken();
       const token = await loginGoogleService(idToken || '');
-
-      const decoded: UserType = jwtDecode(token);
-      if (decoded.userType !== 'ADMIN') {
-        throw new Error('Não tem permissão para acessar essa página.');
-      }
-
-      setUser(decoded);
-
-      const cookieOptions = { expires: 7 /* 7 days */, path: '/' };
-      setCookie('token', token, cookieOptions);
+      setToken(token);
     } catch (error: any) {
       let errors = errorCustomToString(error);
       setError(errors);
@@ -78,9 +87,51 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const loginPhone = async (phone: string) => {};
+  const loginPhone = async (
+    phone: string,
+    appVerifier: RecaptchaVerifier
+  ): Promise<boolean> => {
+    if (isLoading) return false;
+    setIsLoading(true);
+    setError(null);
 
-  const confirmPhone = async (code: string) => {};
+    try {
+      const confirmationResult = await signInWithPhoneNumber(
+        auth,
+        `+244${phone}`,
+        appVerifier
+      );
+
+      setSetConfirmCode(confirmationResult);
+    } catch (error) {
+      let errors = errorCustomToString(error);
+      setError(errors);
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+
+    return true;
+  };
+
+  const confirmPhone = async (code: string) => {
+    if (isLoading) return;
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      const result = await confirmCode?.confirm(code);
+      const idToken = await result?.user.getIdToken();
+
+      const token = await loginPhoneService(idToken || '');
+      setToken(token);
+    } catch (error) {
+      let errors = errorCustomToString(error);
+      setError(errors);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const signupGoogle = async () => {};
 

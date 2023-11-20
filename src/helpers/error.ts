@@ -17,9 +17,9 @@ export function errorCustomToString(catchError: any): string {
     } else {
       errors = catchError.errors.message;
     }
+
+    return errors;
   }
 
-  if (catchError instanceof Error) return catchError.message;
-
-  return errors;
+  return catchError.message;
 }
