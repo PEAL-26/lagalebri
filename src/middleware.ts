@@ -8,13 +8,13 @@ export function middleware(req: NextRequest, res: NextResponse) {
   const dashboardURL = new URL('/dashboard', req.url);
   const { pathname } = req.nextUrl;
 
-  if (!isAuthenticated && !AUTH_ROUTES.includes(pathname)) {
-    return NextResponse.redirect(loginURL);
-  }
+  // if (!isAuthenticated && !AUTH_ROUTES.includes(pathname)) {
+  //   return NextResponse.redirect(loginURL);
+  // }
 
-  if (isAuthenticated && AUTH_ROUTES.includes(pathname)) {
-    return NextResponse.redirect(dashboardURL);
-  }
+  // if (isAuthenticated && AUTH_ROUTES.includes(pathname)) {
+  //   return NextResponse.redirect(dashboardURL);
+  // }
 }
 
 export const config = {

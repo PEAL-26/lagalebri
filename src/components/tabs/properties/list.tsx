@@ -38,7 +38,6 @@ export function List() {
   console.log({ columns, data });
   return (
     <TabsContent value="list" className="space-y-4">
-      <h1>Propriedades</h1>
       <DataTable data={data} columns={columns} />
     </TabsContent>
   );

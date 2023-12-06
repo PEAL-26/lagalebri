@@ -24,7 +24,6 @@ export function useLogin() {
   };
 
   const handleLoginPhone = async () => {
-    console.log({ phone });
     if (isLoading) return;
 
     if (phone.trim() === '') {
@@ -73,9 +72,10 @@ export function useLogin() {
     );
 
     setRecaptcha({ verifier: recaptchaVerifier });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
     if (error) {
       setOpenConfirmCode(false);
     }
