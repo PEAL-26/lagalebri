@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import {
   UserRepositoryCommandAbstraction,
   UserRepositoryQueryAbstraction,
-} from '../abstractions';
+} from '../../abstractions';
 import { NotFoundError } from '@/helpers/errors';
 
 @Injectable()
@@ -16,12 +16,12 @@ export class ReceiveRefuseNotificationsUseCase {
   async receive(id: string) {
     const user = await this.queriesRepository.getById(id);
     if (!user) throw new NotFoundError('Usuário');
-    await this.commandsRepository.receiveRefuseNotifications(id, true);
+    await this.commandsRepository.changeStateNotifications(id, true);
   }
 
   async refuse(id: string) {
     const user = await this.queriesRepository.getById(id);
     if (!user) throw new NotFoundError('Usuário');
-    await this.commandsRepository.receiveRefuseNotifications(id, false);
+    await this.commandsRepository.changeStateNotifications(id, false);
   }
 }

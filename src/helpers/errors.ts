@@ -82,7 +82,7 @@ export class InternalServerError extends HttpException {
   }
 }
 
-export function VerifyError(error: any) {
+export function verifyError(error: any) {
   // Verificar erros personalizados
   if (error?.errors) {
     throw new HttpException({ errors: error.errors }, HttpStatus.BAD_REQUEST);

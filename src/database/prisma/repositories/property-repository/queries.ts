@@ -1,14 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { paginationData, setPagination } from '@/helpers/pagination';
+import {
+  PaginationDataOutput,
+  paginationData,
+  setPagination,
+} from '@/helpers/pagination';
 import { PrismaService } from '@/database/prisma/prisma-service';
 import { PropertyPrismaMapper } from '@/database/prisma/mappers';
 
-// import { ListQuery, PropertyListData } from './types';
 import {
   PropertyRepositoryQueryAbstraction,
   ListQuery,
-} from '@/domain/use-cases/abstractions';
+} from '@/domain/abstractions';
 import { Property } from '@/domain/entities/property';
+import { removeSpecialCharacters } from '@/helpers/characters';
+
+type PropertyListType = {
+  id: string;
+  title: string;
+  slug: string;
+  price: number;
+  image_url: string;
+  address: string;
+  latitude: number;
+  longitude: number;
+  rating: number;
+  views: number;
+}[];
 
 @Injectable()
 export class PropertyQueriesRepository
@@ -20,7 +37,9 @@ export class PropertyQueriesRepository
     const { query = '', page, size } = props ?? {};
     const { limit, offset } = setPagination({ page, size });
 
-    const properties = await this.prisma.$queryRaw<any[]>`
+    const querySanitized = removeSpecialCharacters(query);
+
+    const properties = await this.prisma.$queryRawUnsafe<PropertyListType>(`
       SELECT
         properties.id,
         properties.title,
@@ -49,21 +68,38 @@ export class PropertyQueriesRepository
         views
       ON
         properties.id = views.property_id
+      WHERE
+        properties.title ILIKE '%${querySanitized}%'
       GROUP BY
         properties.id
       LIMIT ${limit}
-      OFFSET ${offset}`;
+      OFFSET ${offset}`);
 
-    // WHERE
-    //   properties.title ILIKE '%casa%'
-
-    // const rows = properties.map(PropertyPrismaMapper.toListPrismaController);
     return paginationData({
       rows: properties,
       total: properties.length,
       limit,
       page,
     });
+  }
+
+  async listForMap(query?: ListQuery): Promise<PaginationDataOutput<any>> {
+    const { query: q = '', page, size } = query ?? {};
+    const { limit, offset } = setPagination({ page, size });
+
+    const [total, properties] = await Promise.all([
+      this.prisma.property.count({}),
+      await this.prisma.property.findMany({
+        select: { id: true, latitude: true, longitude: true, price: true },
+        where: {},
+        skip: offset,
+        take: limit,
+      }),
+    ]);
+
+    const rows = properties.map(PropertyPrismaMapper.toController);
+
+    return paginationData({ rows, total, limit, page });
   }
 
   async getById(id: string): Promise<Property | null> {

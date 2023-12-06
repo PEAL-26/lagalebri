@@ -5,7 +5,7 @@ import { NotificationError } from '@/helpers/errors';
 import {
   UserRepositoryCommandAbstraction,
   UserRepositoryQueryAbstraction,
-} from '../abstractions';
+} from '../../abstractions';
 
 import {
   UserCreateRequest,

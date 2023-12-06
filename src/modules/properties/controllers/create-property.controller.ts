@@ -1,4 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import { Controller, Post, Body } from '@nestjs/common';
 
 import { Admin } from '@/modules/auth/constants';
@@ -47,7 +47,7 @@ export class CreatePropertyController {
 
       return property;
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

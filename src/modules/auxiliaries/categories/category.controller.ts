@@ -8,7 +8,7 @@ import {
   Delete,
   Query,
 } from '@nestjs/common';
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import { CategoryUseCases } from '@/domain/use-cases/categories/category-use-cases';
 
 import {
@@ -37,7 +37,7 @@ export class CategoryController {
 
       return categories;
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 
@@ -47,7 +47,7 @@ export class CategoryController {
       const { category } = await this.categoryService.getById(id);
       return CategoryViewModel.toHTTP(category);
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 
@@ -58,7 +58,7 @@ export class CategoryController {
 
       return CategoryViewModel.toHTTP(category);
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 
@@ -72,7 +72,7 @@ export class CategoryController {
 
       return CategoryViewModel.toHTTP(category);
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 
@@ -89,7 +89,7 @@ export class CategoryController {
 
       return CategoryViewModel.toHTTP(category);
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 
@@ -99,7 +99,7 @@ export class CategoryController {
       await this.categoryService.delete(id);
       return { message: 'Registo removido com sucessor!' };
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

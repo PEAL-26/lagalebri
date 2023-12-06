@@ -1,4 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import { Admin } from '@/modules/auth/constants';
 import { Controller, Delete, Param } from '@nestjs/common';
 
@@ -15,7 +15,7 @@ export class DeleteUserController {
       await this.useCase.delete(id);
       return { message: 'success' };
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

@@ -12,7 +12,7 @@ import {
   PropertyRepositoryQueryAbstraction,
   UserRepositoryCommandAbstraction,
   UserRepositoryQueryAbstraction,
-} from '@/domain/use-cases/abstractions';
+} from '@/domain/abstractions';
 
 @Module({
   providers: [

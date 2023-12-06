@@ -1,4 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import { Controller, Get, Query } from '@nestjs/common';
 
 import { ListPropertyDto } from './dtos/list-property-dto';
@@ -24,7 +24,7 @@ export class ListPropertyController {
 
       return response;
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

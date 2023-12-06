@@ -6,7 +6,7 @@ import {
 } from '@/helpers/pagination';
 import { PrismaService } from '@/database/prisma/prisma-service';
 
-import { UserRepositoryQueryAbstraction } from '@/domain/use-cases/abstractions';
+import { UserRepositoryQueryAbstraction } from '@/domain/abstractions';
 import { User } from '@/domain/entities/user';
 import { QueryProps } from '@/shared/query';
 import { UserPrismaMapper } from '../../mappers/user-prisma-mapper';

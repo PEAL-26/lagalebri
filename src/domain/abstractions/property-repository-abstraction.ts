@@ -11,6 +11,7 @@ export abstract class PropertyRepositoryCommandAbstraction extends RepositoryCom
 
 export abstract class PropertyRepositoryQueryAbstraction extends RepositoryQuery<Property> {
   abstract list(query?: ListQuery): Promise<PaginationDataOutput<any>>;
+  abstract listForMap(query?: ListQuery): Promise<PaginationDataOutput<any>>;
   abstract getByTitle(title: string): Promise<Property>;
-  abstract getBySlug(slug: string): Promise<Property>;
+  abstract getBySlug(slug: string): Promise<Property | null>;
 }

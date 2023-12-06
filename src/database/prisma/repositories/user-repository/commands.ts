@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { User } from '@/domain/entities/user';
-import { UserRepositoryCommandAbstraction } from '@/domain/use-cases/abstractions';
+import { UserRepositoryCommandAbstraction } from '@/domain/abstractions';
 
 import { PrismaService } from '../../prisma-service';
 import { UserPrismaMapper } from '../../mappers/user-prisma-mapper';
@@ -64,7 +64,7 @@ export class UserCommandsRepository
     });
   }
 
-  async receiveRefuseNotifications(
+  async changeStateNotifications(
     id: string,
     notification: boolean,
   ): Promise<void> {

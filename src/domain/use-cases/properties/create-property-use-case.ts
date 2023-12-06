@@ -9,7 +9,7 @@ import {
   PropertyRepositoryCommandAbstraction,
   PropertyRepositoryQueryAbstraction,
   UserRepositoryQueryAbstraction,
-} from '../abstractions';
+} from '../../abstractions';
 
 @Injectable()
 export class CreatePropertyUseCase {

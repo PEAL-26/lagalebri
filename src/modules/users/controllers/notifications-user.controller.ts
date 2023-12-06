@@ -1,4 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import { Controller, Post, Param, Request } from '@nestjs/common';
 
 import { ReceiveRefuseNotificationsUseCase } from '@/domain/use-cases/users';
@@ -14,7 +14,7 @@ export class NotificationsUserController {
       await this.useCase.receive(id);
       return { message: 'success' };
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 
@@ -25,7 +25,7 @@ export class NotificationsUserController {
       await this.useCase.refuse(id);
       return { message: 'success' };
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

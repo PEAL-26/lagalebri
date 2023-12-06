@@ -1,5 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
-import { Public } from '@/modules/auth/constants';
+import { verifyError } from '@/helpers/errors';
 import { Controller, Get, Query } from '@nestjs/common';
 import { UserCRUDUseCases } from '@/domain/use-cases/users';
 
@@ -10,7 +9,6 @@ export class ListUserController {
   constructor(private useCase: UserCRUDUseCases) {}
 
   @Get()
-  @Public()
   async handle(@Query() queries: ListUserQueryDto) {
     try {
       const { q: query, page, size } = queries;
@@ -23,7 +21,7 @@ export class ListUserController {
 
       return users;
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

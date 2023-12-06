@@ -1,4 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import { Public } from '@/modules/auth/constants';
 import { Controller, Get, Param } from '@nestjs/common';
 
@@ -27,7 +27,7 @@ export class GetsUserController {
       const { user } = await this.useCase.getByPhone(entry);
       return UserViewModel.toHTTP(user);
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

@@ -1,4 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import { Controller, HttpCode, HttpStatus, Post, Query } from '@nestjs/common';
 
 import { Public } from '../constants';
@@ -18,7 +18,7 @@ export class LoginController {
     try {
       return await this.loginGoogleServe.execute(token);
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 
@@ -29,7 +29,7 @@ export class LoginController {
     try {
       return await this.loginPhoneService.execute(token);
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { ListAllPropertyUseCaseInput } from './interfaces/list-all-property-types';
-import { PropertyRepositoryQueryAbstraction } from '../abstractions';
+import { PropertyRepositoryQueryAbstraction } from '../../abstractions';
 
 @Injectable()
 export class ListAllPropertyUseCase {

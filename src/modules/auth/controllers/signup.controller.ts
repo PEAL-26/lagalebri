@@ -1,4 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import {
   Controller,
   Post,
@@ -27,7 +27,7 @@ export class SignupController {
       await this.signupGoogle.execute(token);
       return { message: 'success' };
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 
@@ -40,7 +40,7 @@ export class SignupController {
       await this.signupPhone.execute({ token, name });
       return { message: 'success' };
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

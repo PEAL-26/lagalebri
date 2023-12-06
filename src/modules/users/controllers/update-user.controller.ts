@@ -1,4 +1,4 @@
-import { VerifyError } from '@/helpers/errors';
+import { verifyError } from '@/helpers/errors';
 import { Controller, Body, Param, Put } from '@nestjs/common';
 
 import { UserCRUDUseCases } from '@/domain/use-cases/users';
@@ -26,7 +26,7 @@ export class UpdateUserController {
 
       return UserViewModel.toHTTP(user);
     } catch (error) {
-      VerifyError(error);
+      verifyError(error);
     }
   }
 }

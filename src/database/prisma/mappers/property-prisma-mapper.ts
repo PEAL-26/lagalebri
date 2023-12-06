@@ -1,9 +1,10 @@
 import { Property as PropertyPrisma } from '@prisma/client';
+import { camelToSnake } from 'case-naming-converter';
+
 import {
   Property as PropertyEntity,
   PropertyStateEnum,
 } from '@/domain/entities/property';
-import { toSnakeCase } from '@/helpers/converter-property-case';
 import { Decimal } from '@prisma/client/runtime/library';
 import { User } from '@/domain/entities/user';
 
@@ -49,7 +50,7 @@ export class PropertyPrismaMapper {
   }
 
   static toController(data: PropertyPrisma) {
-    return toSnakeCase(data);
+    return camelToSnake(data) as any;
   }
 
   static toListPrismaController(data: any) {

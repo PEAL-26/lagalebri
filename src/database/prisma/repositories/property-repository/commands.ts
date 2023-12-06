@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
 import { PrismaService } from '../../prisma-service';
-import { PropertyRepositoryCommandAbstraction } from '@/domain/use-cases/abstractions';
+import { PropertyRepositoryCommandAbstraction } from '@/domain/abstractions';
 import { Property } from '@/domain/entities/property';
 
 @Injectable()
